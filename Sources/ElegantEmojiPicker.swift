@@ -53,7 +53,7 @@ public class ElegantEmojiPicker: UIViewController {
     var isSearching: Bool = false
     var overridingFocusedSection: Bool = false
     
-    init (delegate: ElegantEmojiPickerDelegate? = nil, configuration: ElegantConfiguration = ElegantConfiguration(), localization: ElegantLocalization = ElegantLocalization()) {
+    public init (delegate: ElegantEmojiPickerDelegate? = nil, configuration: ElegantConfiguration = ElegantConfiguration(), localization: ElegantLocalization = ElegantLocalization()) {
         self.delegate = delegate
         self.config = configuration
         self.localization = localization

@@ -179,12 +179,26 @@ public struct ElegantConfiguration {
 }
 
 public struct ElegantLocalization {
-    public var searchFieldPlaceholder: String = "Search"
+    public var searchFieldPlaceholder: String
     
-    public var searchResultsTitle: String = "Search results"
-    public var searchResultsEmptyTitle: String = "No emoji found"
+    public var searchResultsTitle: String
+    public var searchResultsEmptyTitle: String
     
-    public var randomButtonTitle: String = "Random"
+    public var randomButtonTitle: String
     
-    public var emojiCategoryTitles: [EmojiCategory:String] = EmojiCategory.allCases.reduce(into: [EmojiCategory:String](), { $0[$1] = $1.rawValue })
+    public var emojiCategoryTitles: [EmojiCategory:String]
+    
+    public init(
+        searchFieldPlaceholder: String = "Search",
+        searchResultsTitle: String = "Search results",
+        searchResultsEmptyTitle: String = "No emoji found",
+        randomButtonTitle: String = "Random",
+        emojiCategoryTitles: [EmojiCategory : String] = EmojiCategory.allCases.reduce(into: [EmojiCategory:String](), { $0[$1] = $1.rawValue })) {
+            
+        self.searchFieldPlaceholder = searchFieldPlaceholder
+        self.searchResultsTitle = searchResultsTitle
+        self.searchResultsEmptyTitle = searchResultsEmptyTitle
+        self.randomButtonTitle = randomButtonTitle
+        self.emojiCategoryTitles = emojiCategoryTitles
+    }
 }

@@ -18,7 +18,10 @@ let package = Package(
     targets: [
         .target(
             name: "ElegantEmojiPicker",
-            dependencies: [],
-            path: "Sources")
+            path: "Sources",
+            resources: [
+                .process("Resources/Emoji Unicode 14.0.json"),
+                .process("Resources/Icons.xcassets")
+            ])
     ]
 )

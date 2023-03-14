@@ -123,7 +123,7 @@ public enum EmojiCategory: String, CaseIterable, Decodable {
     public var image: UIImage? {
         switch self {
         case .PeopleAndBody: return UIImage(systemName: "hand.wave", withConfiguration: UIImage.SymbolConfiguration(weight: .medium))?.withRenderingMode(.alwaysTemplate)
-        default: return UIImage(named: self.rawValue)?.withRenderingMode(.alwaysTemplate)
+        default: return UIImage(named: self.rawValue, in: .module, with: nil)?.withRenderingMode(.alwaysTemplate)
         }
     }
     

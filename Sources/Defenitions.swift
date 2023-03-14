@@ -10,7 +10,7 @@ import UIKit
 import CoreText
 
 
-struct Emoji: Decodable {
+public struct Emoji: Decodable {
     let emoji: String
     let description: String
     let category: EmojiCategory
@@ -71,7 +71,7 @@ struct Emoji: Decodable {
         case ios_version
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.emoji = try container.decode(String.self, forKey: .emoji)
         self.description = try container.decode(String.self, forKey: .description)
@@ -97,12 +97,12 @@ struct Emoji: Decodable {
     }
 }
 
-struct EmojiSection {
+public struct EmojiSection {
     let category: EmojiCategory
     var emojis: [Emoji]
 }
 
-enum EmojiSkinTone: String, CaseIterable {
+public enum EmojiSkinTone: String, CaseIterable {
     case Light = "🏻"
     case MediumLight = "🏼"
     case Medium = "🏽"
@@ -110,7 +110,7 @@ enum EmojiSkinTone: String, CaseIterable {
     case Dark = "🏿"
 }
 
-enum EmojiCategory: String, CaseIterable, Decodable {
+public enum EmojiCategory: String, CaseIterable, Decodable {
     case SmileysAndEmotion = "Smileys & Emotion"
     case PeopleAndBody = "People & Body"
     case AnimalsAndNature = "Animals & Nature"
@@ -143,7 +143,7 @@ enum EmojiCategory: String, CaseIterable, Decodable {
     }
 }
 
-struct ElegantConfiguration {
+public struct ElegantConfiguration {
     var showSearch: Bool
     var showRandom: Bool
     var showReset: Bool
@@ -179,7 +179,7 @@ struct ElegantConfiguration {
     }
 }
 
-struct ElegantLocalization {
+public struct ElegantLocalization {
     var searchFieldPlaceholder: String = "Search"
     
     var searchResultsTitle: String = "Search results"

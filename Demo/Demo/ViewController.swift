@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ElegantEmojiPicker
 
 class ViewController: UIViewController {
      let emojiLabel: UILabel = {
@@ -32,28 +33,45 @@ class ViewController: UIViewController {
         self.view.backgroundColor = .systemBackground
         
         emojiSelectionButton.addTarget(self, action: #selector(TappedEmojiSelection), for: .touchUpInside)
-        self.view.addSubview(emojiLabel, anchors: [.centerX(0)])
-        self.view.addSubview(emojiSelectionButton, anchors: [.centerX(0), .height(40), .topToBottom(emojiLabel, 32)])
         
-        let lg = self.view.setupLayoutGuide(top: emojiLabel.topAnchor, bottom: emojiSelectionButton.bottomAnchor, leading: emojiSelectionButton.leadingAnchor, trailing: emojiSelectionButton.trailingAnchor)
-        lg.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor).isActive = true
-        lg.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        self.view.translatesAutoresizingMaskIntoConstraints = false
+        emojiLabel.translatesAutoresizingMaskIntoConstraints = false
+        emojiSelectionButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(emojiLabel)
+        self.view.addSubview(emojiSelectionButton)
         
+        let lg = UILayoutGuide()
+        self.view.addLayoutGuide(lg)
+        
+        NSLayoutConstraint.activate([
+            emojiLabel.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
+            
+            emojiSelectionButton.topAnchor.constraint(equalTo: emojiLabel.bottomAnchor, constant: 32),
+            emojiSelectionButton.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
+            emojiSelectionButton.heightAnchor.constraint(equalToConstant: 40),
+            
+            lg.topAnchor.constraint(equalTo: emojiLabel.topAnchor),
+            lg.bottomAnchor.constraint(equalTo: emojiSelectionButton.bottomAnchor),
+            lg.leadingAnchor.constraint(equalTo: emojiSelectionButton.leadingAnchor),
+            lg.trailingAnchor.constraint(equalTo: emojiSelectionButton.trailingAnchor),
+            lg.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor),
+            lg.widthAnchor.constraint(equalToConstant: 200)
+        ])
     }
     
     @objc func TappedEmojiSelection () {
-        self.present(ElegantEmojiPicker(delegate: self), animated: true)
+//        self.present(ElegantEmojiPicker(delegate: self), animated: true)
     }
 }
 
 extension ViewController: ElegantEmojiPickerDelegate {
-    func emojiPicker(_ picker: ElegantEmojiPicker, didSelectEmoji emoji: Emoji?) {
-        emojiLabel.text = emoji?.emoji ?? ""
-        
-        emojiLabel.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.4) {
-            self.emojiLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
-        }
-    }
+//    func emojiPicker(_ picker: ElegantEmojiPicker, didSelectEmoji emoji: Emoji?) {
+//        emojiLabel.text = emoji?.emoji ?? ""
+//
+//        emojiLabel.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+//        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.4) {
+//            self.emojiLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
+//        }
+//    }
 }
 

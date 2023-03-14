@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class ElegantEmojiPicker: UIViewController {
+public class ElegantEmojiPicker: UIViewController {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
     var delegate: ElegantEmojiPickerDelegate?
@@ -174,13 +174,13 @@ class ElegantEmojiPicker: UIViewController {
         toolbarBottomConstraint?.isActive = true
     }
     
-    override func viewDidLayoutSubviews() {
+    public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionLayout.headerReferenceSize = CGSize(width: collectionView.frame.width, height: 50)
         fadeContainer.layer.mask?.frame = fadeContainer.bounds
     }
     
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         self.view.backgroundColor = UIScreen.main.traitCollection.userInterfaceStyle == .light ? .black.withAlphaComponent(0.1) : .clear
     }
     
@@ -264,7 +264,7 @@ extension ElegantEmojiPicker {
 // MARK: Search
 
 extension ElegantEmojiPicker: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
@@ -371,7 +371,7 @@ extension ElegantEmojiPicker: UITextFieldDelegate {
 
 extension ElegantEmojiPicker: UICollectionViewDelegate, UICollectionViewDataSource {
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as! CollectionViewSectionHeader
         
         let categoryTitle = localization.emojiCategoryTitles[emojiSections[indexPath.section].category] ?? emojiSections[indexPath.section].category.rawValue
@@ -379,15 +379,15 @@ extension ElegantEmojiPicker: UICollectionViewDelegate, UICollectionViewDataSour
         return sectionHeader
     }
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return searchResults == nil ? emojiSections.count : 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return searchResults?.count ?? emojiSections[section].emojis.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCell", for: indexPath) as! EmojiCell
         
         var emoji: Emoji? = nil
@@ -402,19 +402,19 @@ extension ElegantEmojiPicker: UICollectionViewDelegate, UICollectionViewDataSour
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selection = searchResults?[indexPath.row] ?? emojiSections[indexPath.section].emojis[indexPath.row]
         didSelectEmoji(selection)
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y > 10 { searchField?.resignFirstResponder() }
         
         DetectCurrentSection()
         HideSkinToneSelector()
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         self.focusedCategory = emojiSections[indexPath.section].category
     }
 }
@@ -441,7 +441,7 @@ extension ElegantEmojiPicker: UIGestureRecognizerDelegate {
         }
     }
     
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     

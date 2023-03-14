@@ -11,6 +11,7 @@
 		3713370829BBF51C00952B29 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3713370729BBF51C00952B29 /* SceneDelegate.swift */; };
 		3713370A29BBF51C00952B29 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3713370929BBF51C00952B29 /* ViewController.swift */; };
 		3713370F29BBF51E00952B29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3713370E29BBF51E00952B29 /* Assets.xcassets */; };
+		378C989129C120BA0041FEE5 /* ElegantEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 378C989029C120BA0041FEE5 /* ElegantEmojiPicker */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				378C989129C120BA0041FEE5 /* ElegantEmojiPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +79,9 @@
 			dependencies = (
 			);
 			name = Demo;
+			packageProductDependencies = (
+				378C989029C120BA0041FEE5 /* ElegantEmojiPicker */,
+			);
 			productName = Demo;
 			productReference = 3713370229BBF51C00952B29 /* Demo.app */;
 			productType = "com.apple.product-type.application";
@@ -105,6 +110,9 @@
 				Base,
 			);
 			mainGroup = 371336F929BBF51C00952B29;
+			packageReferences = (
+				378C988F29C120BA0041FEE5 /* XCRemoteSwiftPackageReference "Elegant-Emoji-Picker" */,
+			);
 			productRefGroup = 3713370329BBF51C00952B29 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -335,6 +343,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		378C988F29C120BA0041FEE5 /* XCRemoteSwiftPackageReference "Elegant-Emoji-Picker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Finalet/Elegant-Emoji-Picker";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		378C989029C120BA0041FEE5 /* ElegantEmojiPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 378C988F29C120BA0041FEE5 /* XCRemoteSwiftPackageReference "Elegant-Emoji-Picker" */;
+			productName = ElegantEmojiPicker;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 371336FA29BBF51C00952B29 /* Project object */;
 }

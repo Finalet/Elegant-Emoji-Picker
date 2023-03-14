@@ -70,19 +70,19 @@ public protocol ElegantEmojiPickerDelegate {
 
 extension ElegantEmojiPickerDelegate {
     
-    func emojiPicker (_ picker: ElegantEmojiPicker, focusedCategoryChanged to: EmojiCategory, from: EmojiCategory) {}
+    public func emojiPicker (_ picker: ElegantEmojiPicker, focusedCategoryChanged to: EmojiCategory, from: EmojiCategory) {}
     
-    func emojiPicker (_ picker: ElegantEmojiPicker, searchResultFor prompt: String, fromAvailable: [EmojiSection]) -> [Emoji] {
+    public func emojiPicker (_ picker: ElegantEmojiPicker, searchResultFor prompt: String, fromAvailable: [EmojiSection]) -> [Emoji] {
         return ElegantEmojiPicker.getSearchResults(prompt, fromAvailable: fromAvailable)
     }
     
-    func emojiPickerDidStartSearching (_ picker: ElegantEmojiPicker) {}
+    public func emojiPickerDidStartSearching (_ picker: ElegantEmojiPicker) {}
     
-    func emojiPickerDidEndSearching (_ picker: ElegantEmojiPicker) {}
+    public func emojiPickerDidEndSearching (_ picker: ElegantEmojiPicker) {}
     
-    func emojiPickerShouldDismissAfterSelection (_ picker: ElegantEmojiPicker) -> Bool { return true }
+    public func emojiPickerShouldDismissAfterSelection (_ picker: ElegantEmojiPicker) -> Bool { return true }
     
-    func emojiPicker (_ picker: ElegantEmojiPicker, loadEmojiSections withConfiguration: ElegantConfiguration) -> [EmojiSection] {
+    public func emojiPicker (_ picker: ElegantEmojiPicker, loadEmojiSections withConfiguration: ElegantConfiguration) -> [EmojiSection] {
         return ElegantEmojiPicker.setupEmojiSections(config: withConfiguration)
     }
     

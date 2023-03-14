@@ -9,18 +9,17 @@ import Foundation
 import UIKit
 import CoreText
 
-
 public struct Emoji: Decodable {
-    let emoji: String
-    let description: String
-    let category: EmojiCategory
-    let aliases: [String]
-    let tags: [String]
-    let supportsSkinTones: Bool
-    let iOSVersion: String
+    public let emoji: String
+    public let description: String
+    public let category: EmojiCategory
+    public let aliases: [String]
+    public let tags: [String]
+    public let supportsSkinTones: Bool
+    public let iOSVersion: String
     
     // Applying skin tones with Dan Wood's code: https://github.com/Remotionco/Emoji-Library-and-Utilities
-    func emoji (_ withSkinTone: EmojiSkinTone?) -> String? {
+    public func emoji (_ withSkinTone: EmojiSkinTone?) -> String? {
         if !supportsSkinTones { return nil }
         
         // If skin tone is nil, return the default yellow emoji
@@ -82,7 +81,7 @@ public struct Emoji: Decodable {
         self.iOSVersion = try container.decode(String.self, forKey: .ios_version)
     }
     
-    init (emoji: String, description: String, category: EmojiCategory, aliases: [String], tags: [String], supportsSkinTones: Bool, iOSVersion: String) {
+    public init (emoji: String, description: String, category: EmojiCategory, aliases: [String], tags: [String], supportsSkinTones: Bool, iOSVersion: String) {
         self.emoji = emoji
         self.description = description
         self.category = category
@@ -92,14 +91,14 @@ public struct Emoji: Decodable {
         self.iOSVersion = iOSVersion
     }
     
-    func duplicate (_ withSkinTone: EmojiSkinTone?) -> Emoji {
+    public func duplicate (_ withSkinTone: EmojiSkinTone?) -> Emoji {
         return Emoji(emoji: self.emoji(withSkinTone) ?? emoji, description: description, category: category, aliases: aliases, tags: tags, supportsSkinTones: supportsSkinTones, iOSVersion: iOSVersion)
     }
 }
 
 public struct EmojiSection {
-    let category: EmojiCategory
-    var emojis: [Emoji]
+    public let category: EmojiCategory
+    public var emojis: [Emoji]
 }
 
 public enum EmojiSkinTone: String, CaseIterable {
@@ -121,7 +120,7 @@ public enum EmojiCategory: String, CaseIterable, Decodable {
     case Symbols = "Symbols"
     case Flags = "Flags"
     
-    var image: UIImage? {
+    public var image: UIImage? {
         switch self {
         case .PeopleAndBody: return UIImage(systemName: "hand.wave", withConfiguration: UIImage.SymbolConfiguration(weight: .medium))?.withRenderingMode(.alwaysTemplate)
         default: return UIImage(named: self.rawValue)?.withRenderingMode(.alwaysTemplate)
@@ -144,20 +143,20 @@ public enum EmojiCategory: String, CaseIterable, Decodable {
 }
 
 public struct ElegantConfiguration {
-    var showSearch: Bool
-    var showRandom: Bool
-    var showReset: Bool
-    var showClose: Bool
-    var showToolbar: Bool
+    public var showSearch: Bool
+    public var showRandom: Bool
+    public var showReset: Bool
+    public var showClose: Bool
+    public var showToolbar: Bool
     
-    var supportsSkinTones: Bool
-    var supportsPreview: Bool
+    public var supportsSkinTones: Bool
+    public var supportsPreview: Bool
     
-    var categories: [EmojiCategory]
+    public var categories: [EmojiCategory]
     
-    var defaultSkinTone: EmojiSkinTone? = nil
+    public var defaultSkinTone: EmojiSkinTone? = nil
     
-    init (showSearch: Bool = true,
+    public init (showSearch: Bool = true,
           showRandom: Bool = true,
           showReset: Bool = true,
           showClose: Bool = true,
@@ -180,12 +179,12 @@ public struct ElegantConfiguration {
 }
 
 public struct ElegantLocalization {
-    var searchFieldPlaceholder: String = "Search"
+    public var searchFieldPlaceholder: String = "Search"
     
-    var searchResultsTitle: String = "Search results"
-    var searchResultsEmptyTitle: String = "No emoji found"
+    public var searchResultsTitle: String = "Search results"
+    public var searchResultsEmptyTitle: String = "No emoji found"
     
-    var randomButtonTitle: String = "Random"
+    public var randomButtonTitle: String = "Random"
     
-    var emojiCategoryTitles: [EmojiCategory:String] = EmojiCategory.allCases.reduce(into: [EmojiCategory:String](), { $0[$1] = $1.rawValue })
+    public var emojiCategoryTitles: [EmojiCategory:String] = EmojiCategory.allCases.reduce(into: [EmojiCategory:String](), { $0[$1] = $1.rawValue })
 }

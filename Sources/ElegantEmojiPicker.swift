@@ -183,7 +183,7 @@ public class ElegantEmojiPicker: UIViewController {
     }
     
     static func setupEmojiSections(config: ElegantConfiguration) -> [EmojiSection]  {
-        let emojiData = (try? Data(contentsOf: Bundle.main.url(forResource: "Emoji Unicode 14.0", withExtension: "json")!))!
+        let emojiData = (try? Data(contentsOf: Bundle.module.url(forResource: "Emoji Unicode 14.0", withExtension: "json")!))!
         var emojis = try! JSONDecoder().decode([Emoji].self, from: emojiData)
         
         if let defaultSkinTone = config.defaultSkinTone {

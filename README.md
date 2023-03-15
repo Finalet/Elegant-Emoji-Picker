@@ -21,9 +21,12 @@ Elegant Emoji Picker is a beautiful (subjectively) emoji picker for iOS, iPadOS,
 #### Features
 - Includes latest Unicode 14.0 emojis
 - Emoji search
-- Supports skin-tones (one per emoji)
+- Emoji long press preview
+- Skin-tones support (one per emoji)
+- Emoji categories toolbar 
 - Customizable: change displayed sections, buttons, options, and more with `ElegantConfiguration` struct
 - Localizable: provide strings for all on screen labels via the `ElegantLocalization` struct
+- Blindingly beautiful
 
 #### Limitations
 - Does not support two skin tones per emoji. For example:

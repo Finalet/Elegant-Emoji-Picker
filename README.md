@@ -16,16 +16,16 @@ Behold: ~~UIEmojiPicker~~ Elegant Emoji Picker.
 
 ## 🤔 About
 
-Elegant Emoji Picker is a beautiful (subjectively) emoji picker for iOS, iPadOS, and MacCatalyst. 
+Elegant Emoji Picker is a configurable, simple to use, even more simple to impement, and beautiful (subjectively) emoji picker for iOS, iPadOS, and MacCatalyst. 
 
 #### Features
-- Includes latest Unicode 14.0 emojis
-- Emoji search
-- Emoji long press preview
-- Skin-tones support (one per emoji)
-- Emoji categories toolbar 
-- Customizable: change displayed sections, buttons, options, and more with `ElegantConfiguration` struct
-- Localizable: provide strings for all on screen labels via the `ElegantLocalization` struct
+- Search
+- Long press preview
+- Skin tones support (one per emoji)
+- Categories toolbar 
+- Configuratble: change displayed sections, buttons, options, and more
+- Localizable: provide text for all on screen labels
+- Latest Unicode 14.0 emojis
 - Blindingly beautiful
 
 #### Limitations
@@ -70,9 +70,25 @@ func emojiPicker(_ picker: ElegantEmojiPicker, didSelectEmoji emoji: Emoji?) {
 
 ## 🎨 Configuration
 
-### Showing / hiding features
+### Showing or hiding features
 
-Pass the `ElegantConfiguration` struct to the `ElegantEmojiPicker` initializer to specify what elements are shown, which features are available, and what categories of emojis to include.
+Pass the `ElegantConfiguration` struct to the `ElegantEmojiPicker` initializer to configure the UI and behaviour of the emoji picker.
+
+```swift
+let config = ElegantConfiguration(showRandom: false, showReset: false, defaultSkinTone: .Light)
+let picker = ElegantEmojiPicker(delegate: self, configuration: config)
+viewController.present(picker, animated: true)
+```
+
+- `showSearch: Bool` hide or show a search field
+- `showRandom: Bool` hide or show the "Random" button 
+- `showReset: Bool` hide or show the "Reset" button
+- `showClose: Bool` hide or show the "Close" button
+- `showToolbar: Bool` hide or show the built-in toolbar
+- `supportsSkinTones: Bool` allow or disallow selecting emojis skin tone with longpress
+- `supportsPreview: Bool` allow or disallow previewing emojis with longpress
+- `categories: [EmojiCategory]` which default emoji categories to offer users
+- `defaultSkinTone: EmojiSkinTone?` which skin tone to use as default. Default value is `nil`, meaning standard yellow emojis will be used.
 
 ### Offering a custom set of emojis
 
@@ -88,8 +104,24 @@ func emojiPicker (_ picker: ElegantEmojiPicker, loadEmojiSections withConfigurat
 
 You can provide texts for all on screen labels by passing the `ElegantLocalization` struct to the `ElegantEmojiPicker` initializer.
 
+```swift
+let localization = ElegantLocalization(searchFieldPlaceholder: "Че надо", randomButtonTitle: "Хз го рандом")
+let picker = ElegantEmojiPicker(delegate: self, localization: localization)
+viewController.present(picker, animated: true)
+```
+
+- `searchFieldPlaceholder` placeholder text for the search bar
+- `searchResultsTitle` title text shown when presenting users with emoji search results
+- `searchResultsEmptyTitle` title text shown when search results are empty
+- `randomButtonTitle` title for the button that selects a random emoji
+- `emojiCategoryTitles` a dictionary of titles for default emoji categories, like "Smileys & Emotion", "People & Body", and so on.
+
 ## 📱 Sample Project
 
 Explore the [Demo project](https://github.com/Finalet/Elegant-Emoji-Picker/tree/main/Demo) for reference on what Elegant Emoji Picker is capable of or how to implement it. That said, the library is comically simple, so you should not have any trouble yourself. 
 
 If you want to see the picker live on the App Store, check out [Finale To Do](https://apps.apple.com/app/apple-store/id1622931101).
+
+## Contribution guide
+
+I have no idea what I am doing. Send help. How do git contributions work? The fuck if I know. Just don't do anything stupid and we will figure this out.

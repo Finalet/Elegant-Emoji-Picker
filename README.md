@@ -47,7 +47,7 @@ https://github.com/Finalet/Elegant-Emoji-Picker
 
 ### Offering emoji selection
 
-The main view controller class is `ElegantPickerView`, which interacts with you through a delegate protocol `ElegantEmojiPickerDelegate`. Conform to the protocol and present `ElegantPickerView` when you want to offer emoji selection like so:
+`ElegantPickerView` is the main view controller, which interacts with you through a delegate protocol `ElegantEmojiPickerDelegate`. Conform to the protocol and present `ElegantPickerView` when you want to offer emoji selection like so:
 
 ```swift
 func PresentEmojiPicker () {
@@ -68,6 +68,8 @@ func emojiPicker(_ picker: ElegantEmojiPicker, didSelectEmoji emoji: Emoji?) {
 }
 ```
 
+It is that easy. If simply offering emojis is all your soul desires, we are done. But if you are a more intricate type of coder and want more control, keep on readin'.
+
 ## 🎨 Configuration
 
 ### Showing or hiding features
@@ -80,15 +82,15 @@ let picker = ElegantEmojiPicker(delegate: self, configuration: config)
 viewController.present(picker, animated: true)
 ```
 
-- `showSearch: Bool` hide or show a search field
-- `showRandom: Bool` hide or show the "Random" button 
-- `showReset: Bool` hide or show the "Reset" button
-- `showClose: Bool` hide or show the "Close" button
-- `showToolbar: Bool` hide or show the built-in toolbar
-- `supportsSkinTones: Bool` allow or disallow selecting emojis skin tone with longpress
-- `supportsPreview: Bool` allow or disallow previewing emojis with longpress
-- `categories: [EmojiCategory]` which default emoji categories to offer users
-- `defaultSkinTone: EmojiSkinTone?` which skin tone to use as default. Default value is `nil`, meaning standard yellow emojis will be used.
+- `showSearch` hide or show a search field
+- `showRandom` hide or show the "Random" button 
+- `showReset` hide or show the "Reset" button
+- `showClose` hide or show the "Close" button
+- `showToolbar` hide or show the built-in toolbar
+- `supportsSkinTones` allow or disallow selecting emojis skin tone with longpress
+- `supportsPreview` allow or disallow previewing emojis with longpress
+- `categories` which default emoji categories to offer users
+- `defaultSkinTone` optional skin tone to use as default. Default value is `nil`, meaning standard yellow emojis will be used.
 
 ### Offering a custom set of emojis
 
@@ -120,8 +122,8 @@ viewController.present(picker, animated: true)
 
 Explore the [Demo project](https://github.com/Finalet/Elegant-Emoji-Picker/tree/main/Demo) for reference on what Elegant Emoji Picker is capable of or how to implement it. That said, the library is comically simple, so you should not have any trouble yourself. 
 
-If you want to see the picker live on the App Store, check out [Finale To Do](https://apps.apple.com/app/apple-store/id1622931101).
+If you want to see the picker live on the App Store, check out [Finale To Do](https://apps.apple.com/app/apple-store/id1622931101). This sentence was sponsored by #shamelessplug.
 
-## Contribution guide
+## 🤷🏻‍♂️ Contribution guide
 
 I have no idea what I am doing. Send help. How do git contributions work? The fuck if I know. Just don't do anything stupid and we will figure this out.

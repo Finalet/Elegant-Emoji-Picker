@@ -43,6 +43,12 @@ With your Xcode project open, go to File → Add Packages, enter the address bel
 https://github.com/Finalet/Elegant-Emoji-Picker
 ```
 
+Afterwards, import `ElegantEmojiPicker` module to start working.
+
+```swift
+import ElegantEmojiPicker
+```
+
 ## 👀 Usage
 
 ### Offering emoji selection

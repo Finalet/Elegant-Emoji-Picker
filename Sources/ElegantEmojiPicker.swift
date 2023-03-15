@@ -8,10 +8,10 @@
 import Foundation
 import UIKit
 
-public class ElegantEmojiPicker: UIViewController {
-    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+open class ElegantEmojiPicker: UIViewController {
+    required public init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
-    var delegate: ElegantEmojiPickerDelegate?
+    public var delegate: ElegantEmojiPickerDelegate?
     let config: ElegantConfiguration
     let localization: ElegantLocalization
     

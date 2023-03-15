@@ -1,4 +1,4 @@
-![Elegant Emoji Picker Swift UIKit](https://github.com/Finalet/Elegant-Emoji-Picker/blob/main/Documentation/Github%20Hero.png)
+![Elegant Emoji Picker Swift UIKit](https://raw.githubusercontent.com/Finalet/Elegant-Emoji-Picker/main/Documentation/Github%20Hero.png)
 
 # Elegant Emoji Picker
 ![Elegant Emoji Picker Unicode version](https://img.shields.io/badge/Unicode-14.0-blue)

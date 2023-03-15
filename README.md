@@ -14,27 +14,79 @@ Behold: ~~UIEmojiPicker~~ Elegant Emoji Picker.
 
 <sub>P.S: Apple, you have my contacts, reach out.</sub>
 
-# About
+## 🤔 About
 
 Elegant Emoji Picker is a beautiful (subjectively) emoji picker for iOS, iPadOS, and MacCatalyst. 
 
-### Features
+#### Features
 - Includes latest Unicode 14.0 emojis
 - Emoji search
 - Supports skin-tones (one per emoji)
 - Customizable: change displayed sections, buttons, options, and more with `ElegantConfiguration` struct
 - Localizable: provide strings for all on screen labels via the `ElegantLocalization` struct
 
-### Limitations
+#### Limitations
 - Does not support two skin tones per emoji. For example:
   - [x] Supported: 🤝🏻  🤝🏿 
   - [ ] Not supported: 🫱🏿‍🫲🏻   🫱🏼‍🫲🏿 
 
-# Installation
+## 💻 Installation
 
 Elegant Emoji Picker is available via the [Swift Package Manager](https://www.swift.org/package-manager/).
 
 With your Xcode project open, go to File → Add Packages, enter the address below into the search field and click "Add Package".
+
 ```
 https://github.com/Finalet/Elegant-Emoji-Picker
 ```
+
+## 👀 Usage
+
+### Offering emoji selection
+
+The main view controller class is `ElegantPickerView`, which interacts with you through a delegate protocol `ElegantEmojiPickerDelegate`. Conform to the protocol and present `ElegantPickerView` when you want to offer emoji selection like so:
+
+```swift
+func PresentEmojiPicker () {
+    let picker = ElegantEmojiPicker(delegate: self)
+    self.present(picker, animated: true)
+}
+```
+
+### Getting the selected emoji
+
+Implement the required delegate method `emojiPicker (_: didSelectEmoji :)` to recieve user's selection. This function is called as soon as the user picks an emoji and passes an optinal `emoji: Emoji?` variable. `emoji` is nil when the users "resets" selection, meaning they used to have an emoji which they now want to remove. 
+
+```swift
+func emojiPicker(_ picker: ElegantEmojiPicker, didSelectEmoji emoji: Emoji?) {
+    guard let emoji = emoji else { return }
+    
+    uiLabel.text = emoji.emoji
+}
+```
+
+## 🎨 Configuration
+
+### Showing / hiding features
+
+Pass the `ElegantConfiguration` struct to the `ElegantEmojiPicker` initializer to specify what elements are shown, which features are available, and what categories of emojis to include.
+
+### Offering a custom set of emojis
+
+If you want to select which exactly emojis are offered to users, implement the `emojiPicker (_: loadEmojiSections :)` delegate method and return `[EmojiSection]` - an array of sections containing emojis.
+
+```
+func emojiPicker (_ picker: ElegantEmojiPicker, loadEmojiSections withConfiguration: ElegantConfiguration) -> [EmojiSection] {
+    
+}
+```
+
+### Localization 
+
+You can provide texts for all on screen labels by passing the `ElegantLocalization` struct to the `ElegantEmojiPicker` initializer.
+
+## 📱 Sample Project
+
+Explore the [Demo project](https://github.com/Finalet/Elegant-Emoji-Picker/tree/main/Demo) for reference on what Elegant Emoji Picker is capable of or how to implement it. That said, the library is comically simple, so you should not have any trouble yourself. 
+
+If you want to see the picker live on the App Store, check out [Finale To Do](https://apps.apple.com/app/apple-store/id1622931101).

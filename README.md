@@ -1,4 +1,13 @@
+![Elegant Emoji Picker Swift UIKit](https://github.com/Finalet/Elegant-Emoji-Picker/blob/main/Documentation/Github%20Hero.png)
+
 # Elegant Emoji Picker
+![Elegant Emoji Picker Unicode version](https://img.shields.io/badge/Unicode-14.0-blue)
+![Elegant Emoji Picker iOS version](https://img.shields.io/badge/iOS-13.0%2B-blue)
+![Elegant Emoji Picker MacCatalyst version](https://img.shields.io/badge/MacCatalyst-13.0%2B-blue)
+![Elegant Emoji Picker UIKit](https://img.shields.io/badge/Framework-UIKit-red)
+![Elengat Emoji Picker Swift](https://img.shields.io/badge/Language-Swift-orange)
+![Elegant Emoji Picker MIT License](https://img.shields.io/github/license/finalet/elegant-emoji-picker)
+![Elengat Emoji Picker Contact](https://img.shields.io/badge/Contact-%40GrantOgany-darkgray?link=https://twitter.com/GrantOgany)
 
 Why is there no built in emoji picker in UIKit? Same reason as why there is no calculator app in iPadOS? Perhaps. But should we just eat up Craig's laziness? Not this time.
 Behold: ~~UIEmojiPicker~~ Elegant Emoji Picker.

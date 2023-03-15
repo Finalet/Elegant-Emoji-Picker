@@ -78,7 +78,7 @@ Pass the `ElegantConfiguration` struct to the `ElegantEmojiPicker` initializer t
 
 If you want to select which exactly emojis are offered to users, implement the `emojiPicker (_: loadEmojiSections :)` delegate method and return `[EmojiSection]` - an array of sections containing emojis.
 
-```
+```swift
 func emojiPicker (_ picker: ElegantEmojiPicker, loadEmojiSections withConfiguration: ElegantConfiguration) -> [EmojiSection] {
     
 }

@@ -112,10 +112,22 @@ public struct Emoji: Decodable {
     }
 }
 
+/// Struct describing section of emojis
 public struct EmojiSection {
     public let title: String
     public let icon: UIImage?
     public var emojis: [Emoji]
+    
+    /// Create an instance of an emoji section.
+    /// - Parameters:
+    ///   - title: Displayed section title
+    ///   - icon: Displayed section icon (used in the built-in toolbar)
+    ///   - emojis: Emojis contained in this section 
+    public init(title: String, icon: UIImage?, emojis: [Emoji]) {
+        self.title = title
+        self.icon = icon
+        self.emojis = emojis
+    }
 }
 
 public enum EmojiSkinTone: String, CaseIterable {

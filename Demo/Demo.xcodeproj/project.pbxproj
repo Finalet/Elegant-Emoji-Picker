@@ -359,7 +359,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Finalet/Elegant-Emoji-Picker";
 			requirement = {
-				branch = dev;
+				branch = main;
 				kind = branch;
 			};
 		};

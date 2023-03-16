@@ -113,7 +113,8 @@ public struct Emoji: Decodable {
 }
 
 public struct EmojiSection {
-    public let category: EmojiCategory
+    public let title: String
+    public let icon: UIImage?
     public var emojis: [Emoji]
 }
 

@@ -22,14 +22,14 @@ public protocol ElegantEmojiPickerDelegate {
     ///   - emoji: The selected emoji. Returns nil if user resets emoji.
     func emojiPicker (_ picker: ElegantEmojiPicker, didSelectEmoji emoji: Emoji?)
     
-    /// Tells the delegate that the focused emoji category was changed, which happens when the user scrolls through emojis.
+    /// Tells the delegate that the focused emoji section was changed, which happens when the user scrolls through emojis.
     ///
     /// You can use this method to update the UI of your custom toolbar.
     /// - Parameters:
     ///   - picker: The emoji picker view informing the delegate.
-    ///   - to: New focused category.  
-    ///   - from: Previously focused category.
-    func emojiPicker (_ picker: ElegantEmojiPicker, focusedCategoryChanged to: EmojiCategory, from: EmojiCategory)
+    ///   - to: New focused section index.
+    ///   - from: Previously focused section index.
+    func emojiPicker (_ picker: ElegantEmojiPicker, focusedSectionChanged to: Int, from: Int)
     
     /// Asks the delegate to provide search results for a specific prompt.
     ///
@@ -64,13 +64,14 @@ public protocol ElegantEmojiPickerDelegate {
     /// - Parameters:
     ///   - picker: The emoji picker view informing the delegate.
     ///   - withConfiguration: The emoji picker configuration used to setup this emoji picker.
+    ///   - withLocalization: The localization used to setup emoji picker.
     /// - Returns: Return an array of Emoji Sections that you would like the emoji picker to offer users.
-    func emojiPicker (_ picker: ElegantEmojiPicker, loadEmojiSections withConfiguration: ElegantConfiguration) -> [EmojiSection]
+    func emojiPicker (_ picker: ElegantEmojiPicker, loadEmojiSections withConfiguration: ElegantConfiguration, _ withLocalization: ElegantLocalization) -> [EmojiSection]
 }
 
 extension ElegantEmojiPickerDelegate {
     
-    public func emojiPicker (_ picker: ElegantEmojiPicker, focusedCategoryChanged to: EmojiCategory, from: EmojiCategory) {}
+    public func emojiPicker (_ picker: ElegantEmojiPicker, focusedSectionChanged to: Int, from: Int) {}
     
     public func emojiPicker (_ picker: ElegantEmojiPicker, searchResultFor prompt: String, fromAvailable: [EmojiSection]) -> [Emoji] {
         return ElegantEmojiPicker.getSearchResults(prompt, fromAvailable: fromAvailable)
@@ -82,8 +83,8 @@ extension ElegantEmojiPickerDelegate {
     
     public func emojiPickerShouldDismissAfterSelection (_ picker: ElegantEmojiPicker) -> Bool { return true }
     
-    public func emojiPicker (_ picker: ElegantEmojiPicker, loadEmojiSections withConfiguration: ElegantConfiguration) -> [EmojiSection] {
-        return ElegantEmojiPicker.setupEmojiSections(config: withConfiguration)
+    public func emojiPicker (_ picker: ElegantEmojiPicker, loadEmojiSections withConfiguration: ElegantConfiguration, _ withLocalization: ElegantLocalization) -> [EmojiSection] {
+        return ElegantEmojiPicker.setupEmojiSections(config: withConfiguration, localization: withLocalization)
     }
     
 }

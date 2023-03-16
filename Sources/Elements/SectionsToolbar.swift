@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class CategoriesToolbar: UIView {
+class SectionsToolbar: UIView {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
     let emojiPicker: ElegantEmojiPicker
@@ -19,9 +19,9 @@ class CategoriesToolbar: UIView {
     
     var selectionConstraint: NSLayoutConstraint?
     
-    var categoryButtons = [CategoryButton]()
+    var categoryButtons = [SectionButton]()
     
-    init (emojiCategories: [EmojiCategory], emojiPicker: ElegantEmojiPicker) {
+    init (sections: [EmojiSection], emojiPicker: ElegantEmojiPicker) {
         self.emojiPicker = emojiPicker
         super.init(frame: .zero)
         
@@ -39,8 +39,8 @@ class CategoriesToolbar: UIView {
         selectionConstraint = selectionBlur.leadingAnchor.constraint(equalTo: self.leadingAnchor)
         selectionConstraint?.isActive = true
         
-        for category in emojiCategories {
-            let button = CategoryButton(category, emojiPicker: emojiPicker)
+        for i in 0..<sections.count {
+            let button = SectionButton(i, icon: sections[i].icon, emojiPicker: emojiPicker)
             
             let prevButton: UIView? = categoryButtons.last
             
@@ -70,7 +70,7 @@ class CategoriesToolbar: UIView {
     func UpdateCorrectSelection (animated: Bool = true) {
         if !emojiPicker.isSearching { self.alpha = emojiPicker.config.categories.count <= 1 ? 0 : 1 }
         
-        let posX = (categoryButtons.first(where: { $0.category == emojiPicker.focusedCategory })?.frame.origin.x)
+        let posX: CGFloat? = categoryButtons.indices.contains(emojiPicker.focusedSection) ? categoryButtons[emojiPicker.focusedSection].frame.origin.x : nil
         let safePos: CGFloat = posX ?? padding
         
         if animated {
@@ -84,22 +84,22 @@ class CategoriesToolbar: UIView {
         selectionConstraint?.constant = safePos
     }
     
-    class CategoryButton: UIView {
+    class SectionButton: UIView {
         required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
         
         let imageView = UIImageView()
         
-        let category: EmojiCategory
+        let section: Int
         let emojiPicker: ElegantEmojiPicker
         
-        init (_ category: EmojiCategory, emojiPicker: ElegantEmojiPicker) {
-            self.category = category
+        init (_ section: Int, icon: UIImage?, emojiPicker: ElegantEmojiPicker) {
+            self.section = section
             self.emojiPicker = emojiPicker
             super.init(frame: .zero)
             
             self.heightAnchor.constraint(equalTo: self.widthAnchor).isActive = true
             
-            imageView.image = category.image
+            imageView.image = icon
             imageView.contentMode = .scaleAspectFit
             imageView.tintColor = .systemGray
             self.addSubview(imageView, anchors: LayoutAnchor.fullFrame(8))
@@ -108,7 +108,7 @@ class CategoriesToolbar: UIView {
         }
         
         @objc func Tap () {
-            emojiPicker.didSelectCategory(category)
+            emojiPicker.didSelectSection(section)
         }
     }
 }

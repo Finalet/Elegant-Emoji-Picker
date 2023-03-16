@@ -2,11 +2,11 @@
   "pins" : [
     {
       "identity" : "elegant-emoji-picker",
-      "kind" : "localSourceControl",
-      "location" : "/Users/grantoganan/Documents/GitHub/Elegant-Emoji-Picker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Finalet/Elegant-Emoji-Picker",
       "state" : {
         "branch" : "dev",
-        "revision" : "1f79aaafcbdfe4827cf1c2b99e82bee6f1cff519"
+        "revision" : "1c48cd2712622d12a7847281b081b6449096adc2"
       }
     }
   ],

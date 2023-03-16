@@ -58,8 +58,9 @@ open class ElegantEmojiPicker: UIViewController {
     ///   - delegate: provide a delegate to interact with the picker
     ///   - configuration: provide a configuration to change UI and behavior
     ///   - localization: provide a localization to change texts on all labels
-    ///   - sourceView: provide a source view for a popover presentation style. When nil (default) the view is presented as a form sheet.
-    public init (delegate: ElegantEmojiPickerDelegate? = nil, configuration: ElegantConfiguration = ElegantConfiguration(), localization: ElegantLocalization = ElegantLocalization(), sourceView: UIView? = nil) {
+    ///   - sourceView: provide a source view for a popover presentation style.
+    ///   - sourceNavigationBarButton: provide a source navigation bar button for a popover presentation style.
+    public init (delegate: ElegantEmojiPickerDelegate? = nil, configuration: ElegantConfiguration = ElegantConfiguration(), localization: ElegantLocalization = ElegantLocalization(), sourceView: UIView? = nil, sourceNavigationBarButton: UIBarButtonItem? = nil) {
         self.delegate = delegate
         self.config = configuration
         self.localization = localization
@@ -71,6 +72,9 @@ open class ElegantEmojiPicker: UIViewController {
         if let sourceView = sourceView {
             self.modalPresentationStyle = .popover
             self.popoverPresentationController?.sourceView = sourceView
+        } else if let sourceNavigationBarButton = sourceNavigationBarButton {
+            self.modalPresentationStyle = .popover
+            self.popoverPresentationController?.barButtonItem = sourceNavigationBarButton
         } else {
             self.modalPresentationStyle = .formSheet
             if #available(iOS 15.0, *) {

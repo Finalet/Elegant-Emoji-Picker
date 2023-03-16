@@ -12,8 +12,8 @@ open class ElegantEmojiPicker: UIViewController {
     required public init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
     public var delegate: ElegantEmojiPickerDelegate?
-    let config: ElegantConfiguration
-    let localization: ElegantLocalization
+    public let config: ElegantConfiguration
+    public let localization: ElegantLocalization
     
     let padding = 16.0
     let topElementHeight = 40.0
@@ -53,7 +53,7 @@ open class ElegantEmojiPicker: UIViewController {
     var isSearching: Bool = false
     var overridingFocusedSection: Bool = false
     
-    public init (delegate: ElegantEmojiPickerDelegate? = nil, configuration: ElegantConfiguration = ElegantConfiguration(), localization: ElegantLocalization = ElegantLocalization()) {
+    public init (delegate: ElegantEmojiPickerDelegate? = nil, configuration: ElegantConfiguration = ElegantConfiguration(), localization: ElegantLocalization = ElegantLocalization(), sourceView: UIView? = nil) {
         self.delegate = delegate
         self.config = configuration
         self.localization = localization
@@ -62,9 +62,15 @@ open class ElegantEmojiPicker: UIViewController {
         self.emojiSections = self.delegate?.emojiPicker(self, loadEmojiSections: config) ?? ElegantEmojiPicker.setupEmojiSections(config: config)
         if let firstCategory = emojiSections.first?.category { prevFocusedCategory = firstCategory; focusedCategory = firstCategory }
         
-        if #available(iOS 15.0, *) {
-            self.sheetPresentationController?.prefersGrabberVisible = true
-            self.sheetPresentationController?.detents = [.medium(), .large()]
+        if let sourceView = sourceView {
+            self.modalPresentationStyle = .popover
+            self.popoverPresentationController?.sourceView = sourceView
+        } else {
+            self.modalPresentationStyle = .formSheet
+            if #available(iOS 15.0, *) {
+                self.sheetPresentationController?.prefersGrabberVisible = true
+                self.sheetPresentationController?.detents = [.medium(), .large()]
+            }
         }
         
         self.view.addSubview(backgroundBlur, anchors: LayoutAnchor.fullFrame)

@@ -10,7 +10,7 @@ import UIKit
 import CoreText
 
 /// Struct representing a single emoji
-public struct Emoji: Decodable {
+public struct Emoji: Decodable, Equatable {
     public let emoji: String
     public let description: String
     public let category: EmojiCategory

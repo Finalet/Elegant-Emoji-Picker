@@ -44,6 +44,7 @@ open class ElegantEmojiPicker: UIViewController {
     
     var skinToneSelector: SkinToneSelector?
     var emojiPreview: EmojiPreview?
+    public var previewingEmoji: Emoji?
     
     var emojiSections = [EmojiSection]()
     var searchResults: [Emoji]?
@@ -456,17 +457,31 @@ extension ElegantEmojiPicker: UIGestureRecognizerDelegate {
     }
     
     func ShowEmojiPreview (emoji: Emoji) {
+        previewingEmoji = emoji
         emojiPreview = EmojiPreview(emoji: emoji)
         self.present(emojiPreview!, animated: false)
+        
+        self.delegate?.emojiPicker(self, didStartPreview: emoji)
     }
     
     func UpdateEmojiPreview (newEmoji: Emoji) {
+        guard let previewingEmoji = previewingEmoji else { return }
+        if previewingEmoji == newEmoji { return }
+        
+        self.delegate?.emojiPicker(self, didChangePreview: newEmoji, from: previewingEmoji)
+        
         emojiPreview?.Update(newEmoji: newEmoji)
+        self.previewingEmoji = newEmoji
     }
     
     func HideEmojiPreview () {
+        guard let previewingEmoji = previewingEmoji else { return }
+        
+        self.delegate?.emojiPicker(self, didEndPreview: previewingEmoji)
+        
         emojiPreview?.Dismiss()
         emojiPreview = nil
+        self.previewingEmoji = nil
     }
 }
 

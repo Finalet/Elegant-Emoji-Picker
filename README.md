@@ -93,8 +93,8 @@ viewController.present(picker, animated: true)
 - `showReset` hide or show the "Reset" button
 - `showClose` hide or show the "Close" button
 - `showToolbar` hide or show the built-in toolbar
-- `supportsSkinTones` allow or disallow selecting emojis skin tone with longpress
-- `supportsPreview` allow or disallow previewing emojis with longpress
+- `supportsSkinTones` allow or disallow selecting emojis skin tone with long-press
+- `supportsPreview` allow or disallow previewing emojis with long-press
 - `categories` which default emoji categories to offer users
 - `defaultSkinTone` optional skin tone to use as default. Default value is `nil`, meaning standard yellow emojis will be used.
 
@@ -122,7 +122,7 @@ viewController.present(picker, animated: true)
 - `searchResultsTitle` title text shown when presenting users with emoji search results
 - `searchResultsEmptyTitle` title text shown when search results are empty
 - `randomButtonTitle` title for the button that selects a random emoji
-- `emojiCategoryTitles` a dictionary of titles for default emoji categories, like "Smileys & Emotion", "People & Body", and so on.
+- `emojiCategoryTitles` dictionary of titles for default emoji categories, like "Smileys & Emotion", "People & Body", and so on.
 
 ## 📱 Sample Project
 

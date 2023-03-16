@@ -36,8 +36,6 @@ class EmojiPreview: UIViewController {
     }
     
     func Update (newEmoji: Emoji) {
-        if label.text == newEmoji.emoji { return }
-        
         label.text = newEmoji.emoji
         label.alpha = 0
         label.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)

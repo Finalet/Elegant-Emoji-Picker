@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+/// Present this view controller when you want to offer users emoji selection. Conform to its delegate ElegantEmojiPickerDelegate and pass it to the view controller to interact with it and receive user's selection. 
 open class ElegantEmojiPicker: UIViewController {
     required public init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
@@ -38,17 +39,18 @@ open class ElegantEmojiPicker: UIViewController {
     }()
     var collectionView: UICollectionView!
     
-    var toolbar: CategoriesToolbar?
+    var toolbar: SectionsToolbar?
     var toolbarBottomConstraint: NSLayoutConstraint?
     
     var skinToneSelector: SkinToneSelector?
     var emojiPreview: EmojiPreview?
+    public var previewingEmoji: Emoji?
     
     var emojiSections = [EmojiSection]()
     var searchResults: [Emoji]?
     
-    private var prevFocusedCategory: EmojiCategory?
-    var focusedCategory: EmojiCategory?
+    private var prevFocusedSection: Int = 0
+    var focusedSection: Int = 0
     
     var isSearching: Bool = false
     var overridingFocusedSection: Bool = false
@@ -66,13 +68,12 @@ open class ElegantEmojiPicker: UIViewController {
         self.localization = localization
         super.init(nibName: nil, bundle: nil)
         
-        self.emojiSections = self.delegate?.emojiPicker(self, loadEmojiSections: config) ?? ElegantEmojiPicker.setupEmojiSections(config: config)
-        if let firstCategory = emojiSections.first?.category { prevFocusedCategory = firstCategory; focusedCategory = firstCategory }
+        self.emojiSections = self.delegate?.emojiPicker(self, loadEmojiSections: config, localization) ?? ElegantEmojiPicker.setupEmojiSections(config: config, localization: localization)
         
-        if let sourceView = sourceView {
+        if let sourceView = sourceView, UIDevice.current.userInterfaceIdiom != .phone {
             self.modalPresentationStyle = .popover
             self.popoverPresentationController?.sourceView = sourceView
-        } else if let sourceNavigationBarButton = sourceNavigationBarButton {
+        } else if let sourceNavigationBarButton = sourceNavigationBarButton, UIDevice.current.userInterfaceIdiom != .phone {
             self.modalPresentationStyle = .popover
             self.popoverPresentationController?.barButtonItem = sourceNavigationBarButton
         } else {
@@ -178,7 +179,7 @@ open class ElegantEmojiPicker: UIViewController {
     }
     
     func AddToolbar () {
-        toolbar = CategoriesToolbar(emojiCategories: config.categories, emojiPicker: self)
+        toolbar = SectionsToolbar(sections: emojiSections, emojiPicker: self)
         self.view.addSubview(toolbar!, anchors: [.centerX(0)])
         
         toolbar!.leadingAnchor.constraint(greaterThanOrEqualTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: padding).isActive = true
@@ -198,7 +199,7 @@ open class ElegantEmojiPicker: UIViewController {
         self.view.backgroundColor = UIScreen.main.traitCollection.userInterfaceStyle == .light ? .black.withAlphaComponent(0.1) : .clear
     }
     
-    static func setupEmojiSections(config: ElegantConfiguration) -> [EmojiSection]  {
+    static func setupEmojiSections(config: ElegantConfiguration, localization: ElegantLocalization) -> [EmojiSection]  {
         let emojiData = (try? Data(contentsOf: Bundle.module.url(forResource: "Emoji Unicode 14.0", withExtension: "json")!))!
         var emojis = try! JSONDecoder().decode([Emoji].self, from: emojiData)
         
@@ -211,12 +212,13 @@ open class ElegantEmojiPicker: UIViewController {
         let currentIOSVersion = UIDevice.current.systemVersion
         for emoji in emojis {
             if emoji.iOSVersion.compare(currentIOSVersion, options: .numeric) == .orderedDescending { continue } // Skip unsupported emojis.
+            let localizedCategoryTitle = localization.emojiCategoryTitles[emoji.category] ?? emoji.category.rawValue
             
-            if let section = emojiSections.firstIndex(where: { $0.category == emoji.category }) {
+            if let section = emojiSections.firstIndex(where: { $0.title == localizedCategoryTitle }) {
                 emojiSections[section].emojis.append(emoji)
             } else if config.categories.contains(emoji.category) {
                 emojiSections.append(
-                    EmojiSection(category: emoji.category, emojis: [emoji])
+                    EmojiSection(title: localizedCategoryTitle, icon: emoji.category.image, emojis: [emoji])
                 )
             }
         }
@@ -246,12 +248,11 @@ open class ElegantEmojiPicker: UIViewController {
 // MARK: Built-in toolbar
 
 extension ElegantEmojiPicker {
-    func didSelectCategory(_ category: EmojiCategory) {
-        guard let index = emojiSections.firstIndex(where: { $0.category == category }) else { return }
+    func didSelectSection(_ index: Int) {
         collectionView.scrollToItem(at: IndexPath(row: 0, section: index), at: .centeredVertically, animated: true)
         
         overridingFocusedSection = true
-        self.focusedCategory = category
+        self.focusedSection = index
         self.toolbar?.UpdateCorrectSelection(animated: true)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.overridingFocusedSection = false
@@ -388,7 +389,7 @@ extension ElegantEmojiPicker: UICollectionViewDelegate, UICollectionViewDataSour
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as! CollectionViewSectionHeader
         
-        let categoryTitle = localization.emojiCategoryTitles[emojiSections[indexPath.section].category] ?? emojiSections[indexPath.section].category.rawValue
+        let categoryTitle = emojiSections[indexPath.section].title
         sectionHeader.label.text = searchResults == nil ? categoryTitle : searchResults!.count == 0 ? localization.searchResultsEmptyTitle : localization.searchResultsTitle
         return sectionHeader
     }
@@ -427,10 +428,6 @@ extension ElegantEmojiPicker: UICollectionViewDelegate, UICollectionViewDataSour
         DetectCurrentSection()
         HideSkinToneSelector()
     }
-    
-    public func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
-        self.focusedCategory = emojiSections[indexPath.section].category
-    }
 }
 
 //MARK: Long press preview
@@ -460,17 +457,31 @@ extension ElegantEmojiPicker: UIGestureRecognizerDelegate {
     }
     
     func ShowEmojiPreview (emoji: Emoji) {
+        previewingEmoji = emoji
         emojiPreview = EmojiPreview(emoji: emoji)
         self.present(emojiPreview!, animated: false)
+        
+        self.delegate?.emojiPicker(self, didStartPreview: emoji)
     }
     
     func UpdateEmojiPreview (newEmoji: Emoji) {
+        guard let previewingEmoji = previewingEmoji else { return }
+        if previewingEmoji == newEmoji { return }
+        
+        self.delegate?.emojiPicker(self, didChangePreview: newEmoji, from: previewingEmoji)
+        
         emojiPreview?.Update(newEmoji: newEmoji)
+        self.previewingEmoji = newEmoji
     }
     
     func HideEmojiPreview () {
+        guard let previewingEmoji = previewingEmoji else { return }
+        
+        self.delegate?.emojiPicker(self, didEndPreview: previewingEmoji)
+        
         emojiPreview?.Dismiss()
         emojiPreview = nil
+        self.previewingEmoji = nil
     }
 }
 
@@ -521,14 +532,14 @@ extension ElegantEmojiPicker {
             let mostVisibleSection = sectionCounts.max(by: { $0.1 < $1.1 })?.key ?? 0
             
             DispatchQueue.main.async { [weak self] in
-                guard let self = self, let prevFocusedCategory = self.prevFocusedCategory, let focusedCategory = self.focusedCategory else { return }
+                guard let self else { return }
                 
-                self.focusedCategory = self.emojiSections[mostVisibleSection].category
-                if self.prevFocusedCategory != self.focusedCategory {
-                    self.delegate?.emojiPicker(self, focusedCategoryChanged: focusedCategory, from: prevFocusedCategory)
+                self.focusedSection = mostVisibleSection
+                if self.prevFocusedSection != self.focusedSection {
+                    self.delegate?.emojiPicker(self, focusedSectionChanged: self.focusedSection, from: self.prevFocusedSection)
                     self.toolbar?.UpdateCorrectSelection()
                 }
-                self.prevFocusedCategory = self.focusedCategory
+                self.prevFocusedSection = self.focusedSection
             }
         }
     }

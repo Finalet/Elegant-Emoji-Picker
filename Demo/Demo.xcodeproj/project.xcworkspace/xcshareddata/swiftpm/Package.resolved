@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Finalet/Elegant-Emoji-Picker",
       "state" : {
-        "branch" : "main",
-        "revision" : "e781b70a6d058ba1cdad7c5b63b4393b74816890"
+        "branch" : "dev",
+        "revision" : "b0fb7f7c578cebddd8ee3e54a9d64c8b05d1d76f"
       }
     }
   ],

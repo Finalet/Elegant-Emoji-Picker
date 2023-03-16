@@ -69,10 +69,10 @@ open class ElegantEmojiPicker: UIViewController {
         self.emojiSections = self.delegate?.emojiPicker(self, loadEmojiSections: config) ?? ElegantEmojiPicker.setupEmojiSections(config: config)
         if let firstCategory = emojiSections.first?.category { prevFocusedCategory = firstCategory; focusedCategory = firstCategory }
         
-        if let sourceView = sourceView {
+        if let sourceView = sourceView, UIDevice.current.userInterfaceIdiom != .phone {
             self.modalPresentationStyle = .popover
             self.popoverPresentationController?.sourceView = sourceView
-        } else if let sourceNavigationBarButton = sourceNavigationBarButton {
+        } else if let sourceNavigationBarButton = sourceNavigationBarButton, UIDevice.current.userInterfaceIdiom != .phone {
             self.modalPresentationStyle = .popover
             self.popoverPresentationController?.barButtonItem = sourceNavigationBarButton
         } else {

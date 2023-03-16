@@ -25,7 +25,7 @@ class CategoriesToolbar: UIView {
         self.emojiPicker = emojiPicker
         super.init(frame: .zero)
         
-        self.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        self.heightAnchor.constraint(lessThanOrEqualToConstant: 50).isActive = true
         
         self.PopupShadow()
         

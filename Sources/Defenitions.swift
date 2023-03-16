@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import CoreText
 
+/// Struct representing a single emoji
 public struct Emoji: Decodable {
     public let emoji: String
     public let description: String
@@ -18,10 +19,13 @@ public struct Emoji: Decodable {
     public let supportsSkinTones: Bool
     public let iOSVersion: String
     
-    // Applying skin tones with Dan Wood's code: https://github.com/Remotionco/Emoji-Library-and-Utilities
+    /// Get a string representation of this emoji with another skin tone
+    /// - Parameter withSkinTone: new skin tone to use
+    /// - Returns: a string of the new emoji with the applied skin tone
     public func emoji (_ withSkinTone: EmojiSkinTone?) -> String? {
-        if !supportsSkinTones { return nil }
+        // Applying skin tones with Dan Wood's code: https://github.com/Remotionco/Emoji-Library-and-Utilities
         
+        if !supportsSkinTones { return nil }
         // If skin tone is nil, return the default yellow emoji
         guard let withSkinTone = withSkinTone else {
             if let unicode = emoji.unicodeScalars.first { return String(unicode) }
@@ -81,6 +85,15 @@ public struct Emoji: Decodable {
         self.iOSVersion = try container.decode(String.self, forKey: .ios_version)
     }
     
+    /// Create an instance of an emoji
+    /// - Parameters:
+    ///    - emoji: string representation of this emoji
+    ///    - description: unicode textual description
+    ///    - category: unicode category of this emoji
+    ///    - aliases: similar names for this emoji
+    ///    - tags: this emojis tags used for search
+    ///    - supportsSkinTones: weather this emoji supports skin tones
+    ///    - iOSVersion: the earliest iOS which supports this emoji
     public init (emoji: String, description: String, category: EmojiCategory, aliases: [String], tags: [String], supportsSkinTones: Bool, iOSVersion: String) {
         self.emoji = emoji
         self.description = description
@@ -91,6 +104,9 @@ public struct Emoji: Decodable {
         self.iOSVersion = iOSVersion
     }
     
+    /// Create a duplicate of this emoji with another skin tone
+    /// - Parameter withSkinTone: new skin tone to use. If nil, creates a standard yellow emoji
+    /// - Returns: new Emoji with the applied skin tone
     public func duplicate (_ withSkinTone: EmojiSkinTone?) -> Emoji {
         return Emoji(emoji: self.emoji(withSkinTone) ?? emoji, description: description, category: category, aliases: aliases, tags: tags, supportsSkinTones: supportsSkinTones, iOSVersion: iOSVersion)
     }
@@ -142,6 +158,7 @@ public enum EmojiCategory: String, CaseIterable, Decodable {
     }
 }
 
+/// Struct storing settings for the ElegantEmojiPicker.
 public struct ElegantConfiguration {
     public var showSearch: Bool
     public var showRandom: Bool
@@ -156,6 +173,17 @@ public struct ElegantConfiguration {
     
     public var defaultSkinTone: EmojiSkinTone? = nil
     
+    /// Create a new configuration object
+    /// - Parameters:
+    ///   - showSearch: Show or hide search bar
+    ///   - showRandom: Show or hide "Random" button
+    ///   - showReset: Show or hide "Reset" button
+    ///   - showClose: Show or hide "Close" button
+    ///   - showToolbar: Show or hide built-in categories toolbar
+    ///   - supportsSkinTones: Allow or disallow selecting emojis skin tone with long-press
+    ///   - supportsPreview: Allow or disallow previewing emojis with long-press
+    ///   - categories: Which default emoji categories to offer users
+    ///   - defaultSkinTone: Optional skin tone to use as default. Default value is `nil`, meaning standard yellow emojis will be used.
     public init (showSearch: Bool = true,
           showRandom: Bool = true,
           showReset: Bool = true,
@@ -178,6 +206,7 @@ public struct ElegantConfiguration {
     }
 }
 
+/// Struct storing texts for all labels of ElegantEmojiPicker
 public struct ElegantLocalization {
     public var searchFieldPlaceholder: String
     
@@ -188,6 +217,13 @@ public struct ElegantLocalization {
     
     public var emojiCategoryTitles: [EmojiCategory:String]
     
+    /// Create new localization object
+    /// - Parameters:
+    ///   - searchFieldPlaceholder: Placeholder text for the search bar
+    ///   - searchResultsTitle: Title text shown when presenting users with emoji search results
+    ///   - searchResultsEmptyTitle: Title text shown when search results are empty
+    ///   - randomButtonTitle: Title for the button that selects a random emoji
+    ///   - emojiCategoryTitles: Dictionary of titles for default emoji categories, like "Smileys & Emotion", "People & Body", and so on.
     public init(
         searchFieldPlaceholder: String = "Search",
         searchResultsTitle: String = "Search results",

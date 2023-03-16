@@ -99,7 +99,7 @@ extension ElegantEmojiPickerDelegate {
     
     public func emojiPicker (_ picker: ElegantEmojiPicker, didStartPreview emoji: Emoji) {}
     
-    public func emojiPicker (_ picker: ElegantEmojiPicker, didChangePreview from: Emoji, to: Emoji) {}
+    public func emojiPicker (_ picker: ElegantEmojiPicker, didChangePreview emoji: Emoji, from: Emoji) {}
     
     public func emojiPicker (_ picker: ElegantEmojiPicker, didEndPreview emoji: Emoji) {}
     

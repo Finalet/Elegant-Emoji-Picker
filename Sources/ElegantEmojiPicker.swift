@@ -53,6 +53,12 @@ open class ElegantEmojiPicker: UIViewController {
     var isSearching: Bool = false
     var overridingFocusedSection: Bool = false
     
+    /// Initialize and present this view controller to offer emoji selection to users.
+    /// - Parameters:
+    ///   - delegate: provide a delegate to interact with the picker
+    ///   - configuration: provide a configuration to change UI and behavior
+    ///   - localization: provide a localization to change texts on all labels
+    ///   - sourceView: provide a source view for a popover presentation style. When nil (default) the view is presented as a form sheet.
     public init (delegate: ElegantEmojiPickerDelegate? = nil, configuration: ElegantConfiguration = ElegantConfiguration(), localization: ElegantLocalization = ElegantLocalization(), sourceView: UIView? = nil) {
         self.delegate = delegate
         self.config = configuration

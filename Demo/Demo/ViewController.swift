@@ -60,13 +60,13 @@ class ViewController: UIViewController {
     }
     
     @objc func TappedEmojiSelection () {
-        self.present(ElegantEmojiPicker(delegate: self), animated: true)
+        self.present(ElegantEmojiPicker(delegate: self, sourceView: emojiSelectionButton), animated: true)
     }
 }
 
 extension ViewController: ElegantEmojiPickerDelegate {
     func emojiPicker(_ picker: ElegantEmojiPicker, didSelectEmoji emoji: Emoji?) {
-        emojiLabel.text = emoji?.emoji ?? ""
+        emojiLabel.text = emoji?.emoji ?? " "
         
         emojiLabel.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.4) {

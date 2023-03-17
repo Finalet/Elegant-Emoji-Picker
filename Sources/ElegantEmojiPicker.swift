@@ -205,9 +205,9 @@ open class ElegantEmojiPicker: UIViewController {
         
         let persistedSkinTones = ElegantEmojiPicker.persistedSkinTones
         emojis = emojis.map({
-            if let persistedSkinToneStr = persistedSkinTones[$0.emoji], let persistedSkinTone = EmojiSkinTone(rawValue: persistedSkinToneStr) {
+            if let persistedSkinToneStr = persistedSkinTones[$0.emoji.description], let persistedSkinTone = EmojiSkinTone(rawValue: persistedSkinToneStr) {
                 return $0.duplicate(persistedSkinTone)
-            } else if let defaultSkinTone = config.defaultSkinTone, persistedSkinTones[$0.emoji] != "" {
+            } else if let defaultSkinTone = config.defaultSkinTone, persistedSkinTones[$0.emoji.description] != "" {
                 return $0.duplicate(defaultSkinTone)
             }
             return $0
@@ -526,7 +526,7 @@ extension ElegantEmojiPicker {
     }
     
     func PersistSkinTone (originalEmoji: Emoji, skinTone: EmojiSkinTone?) {
-        ElegantEmojiPicker.persistedSkinTones[originalEmoji.emoji] = skinTone?.rawValue ?? (config.defaultSkinTone == nil ? nil : "")
+        ElegantEmojiPicker.persistedSkinTones[originalEmoji.description] = skinTone?.rawValue ?? (config.defaultSkinTone == nil ? nil : "")
     }
 }
 

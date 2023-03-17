@@ -205,11 +205,14 @@ open class ElegantEmojiPicker: UIViewController {
         
         let persistedSkinTones = ElegantEmojiPicker.persistedSkinTones
         emojis = emojis.map({
+            if !$0.supportsSkinTones { return $0 }
+            
             if let persistedSkinToneStr = persistedSkinTones[$0.emoji.description], let persistedSkinTone = EmojiSkinTone(rawValue: persistedSkinToneStr) {
                 return $0.duplicate(persistedSkinTone)
             } else if let defaultSkinTone = config.defaultSkinTone, persistedSkinTones[$0.emoji.description] != "" {
                 return $0.duplicate(defaultSkinTone)
             }
+            
             return $0
         })
         

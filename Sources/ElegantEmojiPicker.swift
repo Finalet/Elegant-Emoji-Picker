@@ -203,9 +203,14 @@ open class ElegantEmojiPicker: UIViewController {
         let emojiData = (try? Data(contentsOf: Bundle.module.url(forResource: "Emoji Unicode 14.0", withExtension: "json")!))!
         var emojis = try! JSONDecoder().decode([Emoji].self, from: emojiData)
         
-        if let defaultSkinTone = config.defaultSkinTone {
-            emojis = emojis.map({ $0.duplicate(defaultSkinTone) })
-        }
+        emojis = emojis.map({
+            if let persistedSkinToneStr = ElegantEmojiPicker.persistedSkinTones[$0.emoji], let persistedSkinTone = EmojiSkinTone(rawValue: persistedSkinToneStr) {
+                return $0.duplicate(persistedSkinTone)
+            } else if let defaultSkinTone = config.defaultSkinTone {
+                return $0.duplicate(defaultSkinTone)
+            }
+            return $0
+        })
         
         var emojiSections = [EmojiSection]()
         
@@ -213,18 +218,13 @@ open class ElegantEmojiPicker: UIViewController {
         for emoji in emojis {
             if emoji.iOSVersion.compare(currentIOSVersion, options: .numeric) == .orderedDescending { continue } // Skip unsupported emojis.
             
-            var persistedEmoji: Emoji? = nil
-            if let persistedSkinToneStr = ElegantEmojiPicker.persistedSkinTones[emoji.emoji], let persistedSkinTone = EmojiSkinTone(rawValue: persistedSkinToneStr) {
-                persistedEmoji = emoji.duplicate(persistedSkinTone)
-            }
-            
             let localizedCategoryTitle = localization.emojiCategoryTitles[emoji.category] ?? emoji.category.rawValue
             
             if let section = emojiSections.firstIndex(where: { $0.title == localizedCategoryTitle }) {
-                emojiSections[section].emojis.append(persistedEmoji ?? emoji)
+                emojiSections[section].emojis.append(emoji)
             } else if config.categories.contains(emoji.category) {
                 emojiSections.append(
-                    EmojiSection(title: localizedCategoryTitle, icon: emoji.category.image, emojis: [persistedEmoji ?? emoji])
+                    EmojiSection(title: localizedCategoryTitle, icon: emoji.category.image, emojis: [emoji])
                 )
             }
         }

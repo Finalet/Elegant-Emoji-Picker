@@ -24,11 +24,11 @@ class SkinToneSelector: UIView {
         blur.alpha = 0
         self.addSubview(blur, anchors: LayoutAnchor.fullFrame)
         
-        let yellow = SkinToneButton(emoji: standardEmoji, emojiPicker: emojiPicker, fontSize: fontSize)
+        let yellow = SkinToneButton(standardEmoji: standardEmoji, skinTone: nil, emojiPicker: emojiPicker, fontSize: fontSize)
         self.addSubview(yellow, anchors: [.leading(padding), .top(padding), .bottom(padding)])
         
         for tone in EmojiSkinTone.allCases {
-            let button = SkinToneButton(emoji: standardEmoji.duplicate(tone), emojiPicker: emojiPicker, fontSize: fontSize)
+            let button = SkinToneButton(standardEmoji: standardEmoji, skinTone: tone, emojiPicker: emojiPicker, fontSize: fontSize)
             self.addSubview(button, anchors: [.leadingToTrailing(self.subviews.last!, padding), .top(padding), .bottom(padding)])
         }
         
@@ -83,16 +83,20 @@ class SkinToneSelector: UIView {
     class SkinToneButton: UILabel {
         required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented")}
         
-        let emoji: Emoji
+        let skinTone: EmojiSkinTone?
+        let standardEmoji: Emoji
+        let skinTonedEmoji: Emoji
         let emojiPicker: ElegantEmojiPicker
         
-        init (emoji: Emoji, emojiPicker: ElegantEmojiPicker, fontSize: CGFloat) {
-            self.emoji = emoji
+        init (standardEmoji: Emoji, skinTone: EmojiSkinTone?, emojiPicker: ElegantEmojiPicker, fontSize: CGFloat) {
+            self.skinTone = skinTone
+            self.standardEmoji = standardEmoji
+            self.skinTonedEmoji = standardEmoji.duplicate(skinTone)
             self.emojiPicker = emojiPicker
             
             super.init(frame: .zero)
             
-            self.text = emoji.emoji
+            self.text = skinTonedEmoji.emoji
             self.font = .systemFont(ofSize: fontSize)
             self.isUserInteractionEnabled = true
             self.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -101,7 +105,9 @@ class SkinToneSelector: UIView {
         }
         
         @objc func TapTone (_ sender: UITapGestureRecognizer) {
-            emojiPicker.didSelectEmoji(emoji)
+            emojiPicker.didSelectEmoji(skinTonedEmoji)
+            
+            emojiPicker.PersistSkinTone(originalEmoji: standardEmoji, skinTone: skinTone)
         }
     }
 }

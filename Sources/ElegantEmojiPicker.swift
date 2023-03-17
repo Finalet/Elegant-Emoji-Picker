@@ -513,6 +513,21 @@ extension ElegantEmojiPicker {
     }
 }
 
+// MARK: Persistence
+
+extension ElegantEmojiPicker {
+    
+    var persistedSkinTones: [String:EmojiSkinTone] {
+        get { return UserDefaults.standard.object(forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones") as? [String:EmojiSkinTone] ?? [:] }
+        set { UserDefaults.standard.set(newValue, forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones") }
+    }
+    
+    func PersistSkinTone (originalEmoji: Emoji, skinTone: EmojiSkinTone?) {
+        persistedSkinTones[originalEmoji.emoji] = skinTone
+    }
+    
+}
+
 // MARK: Misc
 
 extension ElegantEmojiPicker {

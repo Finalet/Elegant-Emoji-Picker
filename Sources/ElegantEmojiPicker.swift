@@ -212,13 +212,19 @@ open class ElegantEmojiPicker: UIViewController {
         let currentIOSVersion = UIDevice.current.systemVersion
         for emoji in emojis {
             if emoji.iOSVersion.compare(currentIOSVersion, options: .numeric) == .orderedDescending { continue } // Skip unsupported emojis.
+            
+            var persistedEmoji: Emoji? = nil
+            if let persistedSkinToneStr = ElegantEmojiPicker.persistedSkinTones[emoji.emoji], let persistedSkinTone = EmojiSkinTone(rawValue: persistedSkinToneStr) {
+                persistedEmoji = emoji.duplicate(persistedSkinTone)
+            }
+            
             let localizedCategoryTitle = localization.emojiCategoryTitles[emoji.category] ?? emoji.category.rawValue
             
             if let section = emojiSections.firstIndex(where: { $0.title == localizedCategoryTitle }) {
-                emojiSections[section].emojis.append(emoji)
+                emojiSections[section].emojis.append(persistedEmoji ?? emoji)
             } else if config.categories.contains(emoji.category) {
                 emojiSections.append(
-                    EmojiSection(title: localizedCategoryTitle, icon: emoji.category.image, emojis: [emoji])
+                    EmojiSection(title: localizedCategoryTitle, icon: emoji.category.image, emojis: [persistedEmoji ?? emoji])
                 )
             }
         }
@@ -512,13 +518,13 @@ extension ElegantEmojiPicker {
         }
     }
     
-    var persistedSkinTones: [String:String] {
+    static var persistedSkinTones: [String:String] {
         get { return UserDefaults.standard.object(forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones") as? [String:String] ?? [:] }
         set { UserDefaults.standard.set(newValue, forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones") }
     }
     
     func PersistSkinTone (originalEmoji: Emoji, skinTone: EmojiSkinTone?) {
-        persistedSkinTones[originalEmoji.emoji] = skinTone?.rawValue
+        ElegantEmojiPicker.persistedSkinTones[originalEmoji.emoji] = skinTone?.rawValue
     }
 }
 

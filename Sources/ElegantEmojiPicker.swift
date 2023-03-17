@@ -203,15 +203,26 @@ open class ElegantEmojiPicker: UIViewController {
         let emojiData = (try? Data(contentsOf: Bundle.module.url(forResource: "Emoji Unicode 14.0", withExtension: "json")!))!
         var emojis = try! JSONDecoder().decode([Emoji].self, from: emojiData)
         
-        if let defaultSkinTone = config.defaultSkinTone {
-            emojis = emojis.map({ $0.duplicate(defaultSkinTone) })
-        }
+        let persistedSkinTones = ElegantEmojiPicker.persistedSkinTones
+        emojis = emojis.map({
+            if !$0.supportsSkinTones { return $0 }
+            
+            if let persistedSkinToneStr = persistedSkinTones[$0.description], let persistedSkinTone = EmojiSkinTone(rawValue: persistedSkinToneStr) {
+                return $0.duplicate(persistedSkinTone)
+            } else if let defaultSkinTone = config.defaultSkinTone, persistedSkinTones[$0.description] != "" {
+                return $0.duplicate(defaultSkinTone)
+            }
+            
+            return $0
+        })
         
         var emojiSections = [EmojiSection]()
         
         let currentIOSVersion = UIDevice.current.systemVersion
+        
         for emoji in emojis {
             if emoji.iOSVersion.compare(currentIOSVersion, options: .numeric) == .orderedDescending { continue } // Skip unsupported emojis.
+            
             let localizedCategoryTitle = localization.emojiCategoryTitles[emoji.category] ?? emoji.category.rawValue
             
             if let section = emojiSections.firstIndex(where: { $0.title == localizedCategoryTitle }) {
@@ -510,6 +521,21 @@ extension ElegantEmojiPicker {
             self.skinToneSelector?.removeFromSuperview()
             self.skinToneSelector = nil
         }
+    }
+    
+    static var persistedSkinTones: [String:String] {
+        get { return UserDefaults.standard.object(forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones_Key") as? [String:String] ?? [:] }
+        set { UserDefaults.standard.set(newValue, forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones_Key") }
+    }
+    
+    func PersistSkinTone (originalEmoji: Emoji, skinTone: EmojiSkinTone?) {
+        if !config.persistSkinTones { return }
+        
+        ElegantEmojiPicker.persistedSkinTones[originalEmoji.description] = skinTone?.rawValue ?? (config.defaultSkinTone == nil ? nil : "")
+    }
+    
+    public func CleanPersistedSkinTones () {
+        ElegantEmojiPicker.persistedSkinTones = [:]
     }
 }
 

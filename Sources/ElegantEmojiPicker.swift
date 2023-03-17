@@ -524,11 +524,13 @@ extension ElegantEmojiPicker {
     }
     
     static var persistedSkinTones: [String:String] {
-        get { return UserDefaults.standard.object(forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones") as? [String:String] ?? [:] }
-        set { UserDefaults.standard.set(newValue, forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones") }
+        get { return UserDefaults.standard.object(forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones_Key") as? [String:String] ?? [:] }
+        set { UserDefaults.standard.set(newValue, forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones_Key") }
     }
     
     func PersistSkinTone (originalEmoji: Emoji, skinTone: EmojiSkinTone?) {
+        if !config.persistSkinTones { return }
+        
         ElegantEmojiPicker.persistedSkinTones[originalEmoji.description] = skinTone?.rawValue ?? (config.defaultSkinTone == nil ? nil : "")
     }
     

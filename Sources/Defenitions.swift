@@ -179,11 +179,12 @@ public struct ElegantConfiguration {
     public var showClose: Bool
     public var showToolbar: Bool
     
-    public var supportsSkinTones: Bool
     public var supportsPreview: Bool
     
     public var categories: [EmojiCategory]
     
+    public var supportsSkinTones: Bool
+    public var persistSkinTones: Bool
     public var defaultSkinTone: EmojiSkinTone? = nil
     
     /// Create a new configuration object
@@ -193,28 +194,32 @@ public struct ElegantConfiguration {
     ///   - showReset: Show or hide "Reset" button
     ///   - showClose: Show or hide "Close" button
     ///   - showToolbar: Show or hide built-in categories toolbar
-    ///   - supportsSkinTones: Allow or disallow selecting emojis skin tone with long-press
     ///   - supportsPreview: Allow or disallow previewing emojis with long-press
     ///   - categories: Which default emoji categories to offer users
+    ///   - supportsSkinTones: Allow or disallow selecting emojis skin tone with long-press
+    ///   - persistSkinTones: Should save user's skin tone selection for each emoji between sessions. Default is true.
     ///   - defaultSkinTone: Optional skin tone to use as default. Default value is `nil`, meaning standard yellow emojis will be used.
-    public init (showSearch: Bool = true,
-          showRandom: Bool = true,
-          showReset: Bool = true,
-          showClose: Bool = true,
-          showToolbar: Bool = true,
-          supportsSkinTones: Bool = true,
-          supportsPreview: Bool = true,
-          categories: [EmojiCategory] = [.SmileysAndEmotion, .PeopleAndBody, .AnimalsAndNature, .FoodAndDrink, .TravelAndPlaces, .Activities, .Objects, .Symbols, .Flags],
-          defaultSkinTone: EmojiSkinTone? = nil) {
-    
+    public init(
+        showSearch: Bool = true,
+        showRandom: Bool = true,
+        showReset: Bool = true,
+        showClose: Bool = true,
+        showToolbar: Bool = true,
+        supportsPreview: Bool = true,
+        categories: [EmojiCategory] = [.SmileysAndEmotion, .PeopleAndBody, .AnimalsAndNature, .FoodAndDrink, .TravelAndPlaces, .Activities, .Objects, .Symbols, .Flags],
+        supportsSkinTones: Bool = true,
+        persistSkinTones: Bool = true,
+        defaultSkinTone: EmojiSkinTone? = nil) {
+            
         self.showSearch = showSearch
         self.showRandom = showRandom
         self.showReset = showReset
         self.showClose = showClose
         self.showToolbar = showToolbar
-        self.supportsSkinTones = supportsSkinTones
         self.supportsPreview = supportsPreview
         self.categories = categories.sorted(by: { $0.index < $1.index })
+        self.supportsSkinTones = supportsSkinTones
+        self.persistSkinTones = persistSkinTones
         self.defaultSkinTone = defaultSkinTone
     }
 }

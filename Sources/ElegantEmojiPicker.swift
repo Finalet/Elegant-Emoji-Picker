@@ -203,10 +203,11 @@ open class ElegantEmojiPicker: UIViewController {
         let emojiData = (try? Data(contentsOf: Bundle.module.url(forResource: "Emoji Unicode 14.0", withExtension: "json")!))!
         var emojis = try! JSONDecoder().decode([Emoji].self, from: emojiData)
         
+        let persistedSkinTones = ElegantEmojiPicker.persistedSkinTones
         emojis = emojis.map({
-            if let persistedSkinToneStr = ElegantEmojiPicker.persistedSkinTones[$0.emoji], let persistedSkinTone = EmojiSkinTone(rawValue: persistedSkinToneStr) {
+            if let persistedSkinToneStr = persistedSkinTones[$0.emoji], let persistedSkinTone = EmojiSkinTone(rawValue: persistedSkinToneStr) {
                 return $0.duplicate(persistedSkinTone)
-            } else if let defaultSkinTone = config.defaultSkinTone {
+            } else if let defaultSkinTone = config.defaultSkinTone, persistedSkinTones[$0.emoji] != "" {
                 return $0.duplicate(defaultSkinTone)
             }
             return $0
@@ -215,6 +216,7 @@ open class ElegantEmojiPicker: UIViewController {
         var emojiSections = [EmojiSection]()
         
         let currentIOSVersion = UIDevice.current.systemVersion
+        
         for emoji in emojis {
             if emoji.iOSVersion.compare(currentIOSVersion, options: .numeric) == .orderedDescending { continue } // Skip unsupported emojis.
             
@@ -524,7 +526,7 @@ extension ElegantEmojiPicker {
     }
     
     func PersistSkinTone (originalEmoji: Emoji, skinTone: EmojiSkinTone?) {
-        ElegantEmojiPicker.persistedSkinTones[originalEmoji.emoji] = skinTone?.rawValue
+        ElegantEmojiPicker.persistedSkinTones[originalEmoji.emoji] = skinTone?.rawValue ?? (config.defaultSkinTone == nil ? nil : "")
     }
 }
 

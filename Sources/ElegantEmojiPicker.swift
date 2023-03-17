@@ -531,6 +531,10 @@ extension ElegantEmojiPicker {
     func PersistSkinTone (originalEmoji: Emoji, skinTone: EmojiSkinTone?) {
         ElegantEmojiPicker.persistedSkinTones[originalEmoji.description] = skinTone?.rawValue ?? (config.defaultSkinTone == nil ? nil : "")
     }
+    
+    public func CleanPersistedSkinTones () {
+        ElegantEmojiPicker.persistedSkinTones = [:]
+    }
 }
 
 // MARK: Misc

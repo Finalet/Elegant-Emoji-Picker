@@ -23,7 +23,7 @@ Elegant Emoji Picker is a configurable, simple to use, even more simple to impem
 - Long press preview
 - Skin tones support (one per emoji)
 - Categories toolbar 
-- Configuratble: change displayed sections, buttons, options, and more
+- Configurable: change displayed sections, buttons, options, and more
 - Localizable: provide text for all on screen labels
 - Latest Unicode 14.0 emojis
 - Blindingly beautiful
@@ -88,25 +88,41 @@ let picker = ElegantEmojiPicker(delegate: self, configuration: config)
 viewController.present(picker, animated: true)
 ```
 
-- `showSearch` hide or show a search field
-- `showRandom` hide or show the "Random" button 
-- `showReset` hide or show the "Reset" button
-- `showClose` hide or show the "Close" button
-- `showToolbar` hide or show the built-in toolbar
-- `supportsSkinTones` allow or disallow selecting emojis skin tone with long-press
-- `supportsPreview` allow or disallow previewing emojis with long-press
-- `categories` which default emoji categories to offer users
-- `defaultSkinTone` optional skin tone to use as default. Default value is `nil`, meaning standard yellow emojis will be used.
+- `showSearch` Show or hide search bar
+- `showRandom` Show or hide "Random" button
+- `showReset` Show or hide "Reset" button
+- `showClose` Show or hide "Close" button
+- `showToolbar` Show or hide built-in categories toolbar
+- `supportsPreview` Allow or disallow previewing emojis with long-press
+- `categories` Which default emoji categories to offer users
+- `supportsSkinTones` Allow or disallow selecting emojis skin tone with long-press
+- `persistSkinTones` Should save user's skin tone selection for each emoji between sessions. Default is true.
+- `defaultSkinTone` Optional skin tone to use as default. Default value is `nil`, meaning standard yellow emojis will be used.
 
 ### Offering a custom set of emojis
 
-If you want to select which exactly emojis are offered to users, implement the `emojiPicker (_: loadEmojiSections :)` delegate method and return `[EmojiSection]` - an array of sections containing emojis.
+If you want to provide your own list of emojis to users, implement the `emojiPicker(_: loadEmojiSections : withConfiguration : withLocalization)` delegate method and return `[EmojiSection]` - an array of sections containing emojis.
+
+`EmojiSection` one section containing emojis, like "Smileys & Emotion" or "People & Body".
+- `title` Displayed section title
+- `icon` Displayed section icon (used in the built-in toolbar). Optional.
+- `emojis` Emojis contained in this section
 
 ```swift
-func emojiPicker (_ picker: ElegantEmojiPicker, loadEmojiSections withConfiguration: ElegantConfiguration) -> [EmojiSection] {
-    
+func emojiPicker(_ picker: ElegantEmojiPicker, loadEmojiSections withConfiguration: ElegantConfiguration, _ withLocalization: ElegantLocalization) -> [EmojiSection] {
+    let sections = [
+        EmojiSection(title: "Politeness", icon: UIImage(systemName: "hand.wave"), emojis: [
+            Emoji(emoji: "🖕", description: "middle finger", category: .PeopleAndBody, aliases: [], tags: ["flip"], supportsSkinTones: true, iOSVersion: "9.1"),
+            Emoji(emoji: "👊", description: "oncoming punch", category: .PeopleAndBody, aliases: ["smash"], tags: [], supportsSkinTones: true, iOSVersion: "6.0")
+        ])
+    ]
+    return sections
 }
 ```
+
+`picker` Picker view that is asking the delegate for emojis.
+`withConfiguration` Configuration used to for this emoji picker. Default method uses it to process skin tones, sections, and more.
+`withLocalization` The localization used for this emoji picker. Default method uses it to provide localized section titles.
 
 ### Localization 
 
@@ -118,11 +134,11 @@ let picker = ElegantEmojiPicker(delegate: self, localization: localization)
 viewController.present(picker, animated: true)
 ```
 
-- `searchFieldPlaceholder` placeholder text for the search bar
-- `searchResultsTitle` title text shown when presenting users with emoji search results
-- `searchResultsEmptyTitle` title text shown when search results are empty
-- `randomButtonTitle` title for the button that selects a random emoji
-- `emojiCategoryTitles` dictionary of titles for default emoji categories, like "Smileys & Emotion", "People & Body", and so on.
+- `searchFieldPlaceholder` Placeholder text for the search bar
+- `searchResultsTitle` Title text shown when presenting users with emoji search results
+- `searchResultsEmptyTitle` Title text shown when search results are empty
+- `randomButtonTitle` Title for the button that selects a random emoji
+- `emojiCategoryTitles` Dictionary of titles for default emoji categories, like "Smileys & Emotion", "People & Body", and so on.
 
 ## 📱 Sample Project
 

@@ -18,7 +18,7 @@ https://user-images.githubusercontent.com/10033440/226136503-79eb27fb-1254-45da-
 
 ## 🤔 About
 
-Elegant Emoji Picker is a configurable, simple to use, even more simple to impement, and beautiful (subjectively) emoji picker for iOS, iPadOS, and MacCatalyst. ([iOS preview](https://github.com/Finalet/Elegant-Emoji-Picker/blob/dev/Documentation/iOS%20preview.MP4), [MacCatalyst preview](https://github.com/Finalet/Elegant-Emoji-Picker/blob/dev/Documentation/MacCatalyst%20preview.mov))
+Elegant Emoji Picker is a configurable, simple to use, even more simple to impement, and beautiful (subjectively) emoji picker for iOS, iPadOS, and MacCatalyst ([iOS preview](https://github.com/Finalet/Elegant-Emoji-Picker/blob/dev/Documentation/iOS%20preview.MP4), [MacCatalyst preview](https://github.com/Finalet/Elegant-Emoji-Picker/blob/dev/Documentation/MacCatalyst%20preview.mov)).
 
 #### Features
 - Search

@@ -43,7 +43,7 @@ With your Xcode project open, go to File → Add Packages, enter the address bel
 https://github.com/Finalet/Elegant-Emoji-Picker
 ```
 
-Afterwards, import `ElegantEmojiPicker` module to start working.
+Afterwards, import `ElegantEmojiPicker` module where you want to use it.
 
 ```swift
 import ElegantEmojiPicker
@@ -96,14 +96,14 @@ viewController.present(picker, animated: true)
 - `supportsPreview` Allow or disallow previewing emojis with long-press
 - `categories` Which default emoji categories to offer users
 - `supportsSkinTones` Allow or disallow selecting emojis skin tone with long-press
-- `persistSkinTones` Should save user's skin tone selection for each emoji between sessions. Default is true.
+- `persistSkinTones` Save or forget user's skin tone selection for each emoji between sessions.
 - `defaultSkinTone` Optional skin tone to use as default. Default value is `nil`, meaning standard yellow emojis will be used.
 
 ### Offering a custom set of emojis
 
 If you want to provide your own list of emojis to users, implement the `emojiPicker(_: loadEmojiSections : withConfiguration : withLocalization)` delegate method and return `[EmojiSection]` - an array of sections containing emojis.
 
-`EmojiSection` one section containing emojis, like "Smileys & Emotion" or "People & Body".
+`EmojiSection` - one section containing emojis, like "Smileys & Emotion" or "People & Body".
 - `title` Displayed section title
 - `icon` Displayed section icon (used in the built-in toolbar). Optional.
 - `emojis` Emojis contained in this section
@@ -120,9 +120,9 @@ func emojiPicker(_ picker: ElegantEmojiPicker, loadEmojiSections withConfigurati
 }
 ```
 
-`picker` Picker view that is asking the delegate for emojis.
-`withConfiguration` Configuration used to for this emoji picker. Default method uses it to process skin tones, sections, and more.
-`withLocalization` The localization used for this emoji picker. Default method uses it to provide localized section titles.
+- `picker` Picker view that is asking the delegate for emojis.
+- `withConfiguration` Configuration used to for this emoji picker. Default method uses it to process skin tones, sections, and more.
+- `withLocalization` The localization used for this emoji picker. Default method uses it to provide localized section titles.
 
 ### Localization 
 

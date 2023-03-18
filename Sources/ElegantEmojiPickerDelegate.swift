@@ -82,7 +82,7 @@ public protocol ElegantEmojiPickerDelegate {
     ///
     /// Use this method if you are unsatisfied with the provided emojis and want to supply your own. You are welcome, but, also, fuck you.
     /// - Parameters:
-    ///   - picker: Emoji picker view informing the delegate.
+    ///   - picker: Emoji picker view asking the delegate.
     ///   - withConfiguration: Emoji picker configuration used to setup this emoji picker.
     ///   - withLocalization: Localization used to setup emoji picker.
     /// - Returns: Return an array of Emoji Sections that you would like the emoji picker to offer users.

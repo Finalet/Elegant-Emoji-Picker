@@ -274,7 +274,7 @@
 				DEVELOPMENT_TEAM = AYPPAXMRMG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Demo/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Elegant Emoji Picker";
+				INFOPLIST_KEY_CFBundleDisplayName = Demo;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -308,7 +308,7 @@
 				DEVELOPMENT_TEAM = AYPPAXMRMG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Demo/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Elegant Emoji Picker";
+				INFOPLIST_KEY_CFBundleDisplayName = Demo;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";

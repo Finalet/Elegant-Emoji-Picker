@@ -589,7 +589,7 @@ extension ElegantEmojiPicker: UIAdaptivePresentationControllerDelegate {
             return .formSheet
         }
         
-        return .none
+        return .popover
     }
     
 }

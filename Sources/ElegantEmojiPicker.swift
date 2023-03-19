@@ -70,6 +70,8 @@ open class ElegantEmojiPicker: UIViewController {
         
         self.emojiSections = self.delegate?.emojiPicker(self, loadEmojiSections: config, localization) ?? ElegantEmojiPicker.setupEmojiSections(config: config, localization: localization)
         
+        self.presentationController?.delegate = self
+        
         if let sourceView = sourceView, !AppConfiguration.isIPhone, AppConfiguration.windowFrame.width > 500 {
             self.modalPresentationStyle = .popover
             self.popoverPresentationController?.sourceView = sourceView
@@ -568,5 +570,11 @@ extension ElegantEmojiPicker {
                 self.prevFocusedSection = self.focusedSection
             }
         }
+    }
+}
+
+extension ElegantEmojiPicker: UIAdaptivePresentationControllerDelegate {
+    public func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none // Do not adapt presentation style. We set the presentation style manually in our init(). I know better than Apple.
     }
 }

@@ -70,8 +70,6 @@ open class ElegantEmojiPicker: UIViewController {
         
         self.emojiSections = self.delegate?.emojiPicker(self, loadEmojiSections: config, localization) ?? ElegantEmojiPicker.setupEmojiSections(config: config, localization: localization)
         
-        self.presentationController?.delegate = self
-        
         if let sourceView = sourceView, !AppConfiguration.isIPhone, AppConfiguration.windowFrame.width > 500 {
             self.modalPresentationStyle = .popover
             self.popoverPresentationController?.sourceView = sourceView
@@ -85,6 +83,8 @@ open class ElegantEmojiPicker: UIViewController {
                 self.sheetPresentationController?.detents = [.medium(), .large()]
             }
         }
+        
+        self.presentationController?.delegate = self
         
         self.view.addSubview(backgroundBlur, anchors: LayoutAnchor.fullFrame)
         

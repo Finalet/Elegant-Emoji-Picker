@@ -70,20 +70,21 @@ open class ElegantEmojiPicker: UIViewController {
         
         self.emojiSections = self.delegate?.emojiPicker(self, loadEmojiSections: config, localization) ?? ElegantEmojiPicker.setupEmojiSections(config: config, localization: localization)
         
-        let shouldPopover = UIDevice.current.userInterfaceIdiom != .phone && AppConfiguration.windowFrame.width > 500
-        if let sourceView = sourceView, shouldPopover {
-            self.modalPresentationStyle = .popover
-            self.popoverPresentationController?.sourceView = sourceView
-        } else if let sourceNavigationBarButton = sourceNavigationBarButton, shouldPopover {
-            self.modalPresentationStyle = .popover
-            self.popoverPresentationController?.barButtonItem = sourceNavigationBarButton
-        } else {
-            self.modalPresentationStyle = .formSheet
-            if #available(iOS 15.0, *) {
-                self.sheetPresentationController?.prefersGrabberVisible = true
-                self.sheetPresentationController?.detents = [.medium(), .large()]
-            }
-        }
+//        let shouldPopover = UIDevice.current.userInterfaceIdiom != .phone && AppConfiguration.windowFrame.width > 500
+//        if let sourceView = sourceView, shouldPopover {
+//            self.modalPresentationStyle = .popover
+//            self.popoverPresentationController?.sourceView = sourceView
+//        } else if let sourceNavigationBarButton = sourceNavigationBarButton, shouldPopover {
+//            self.modalPresentationStyle = .popover
+//            self.popoverPresentationController?.barButtonItem = sourceNavigationBarButton
+//        } else {
+//            self.modalPresentationStyle = .formSheet
+//            if #available(iOS 15.0, *) {
+//                self.sheetPresentationController?.prefersGrabberVisible = true
+//                self.sheetPresentationController?.detents = [.medium(), .large()]
+//            }
+//        }
+//        self.presentationController?.delegate = self
         
         self.view.addSubview(backgroundBlur, anchors: LayoutAnchor.fullFrame)
         

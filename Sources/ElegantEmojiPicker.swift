@@ -70,12 +70,10 @@ open class ElegantEmojiPicker: UIViewController {
         
         self.emojiSections = self.delegate?.emojiPicker(self, loadEmojiSections: config, localization) ?? ElegantEmojiPicker.setupEmojiSections(config: config, localization: localization)
         
-        self.presentationController?.delegate = self
-        
-        if let sourceView = sourceView, !AppConfiguration.isIPhone {
+        if let sourceView = sourceView, !AppConfiguration.isIPhone, AppConfiguration.windowFrame.width > 500 {
             self.modalPresentationStyle = .popover
             self.popoverPresentationController?.sourceView = sourceView
-        } else if let sourceNavigationBarButton = sourceNavigationBarButton, !AppConfiguration.isIPhone {
+        } else if let sourceNavigationBarButton = sourceNavigationBarButton, !AppConfiguration.isIPhone, AppConfiguration.windowFrame.width > 500 {
             self.modalPresentationStyle = .popover
             self.popoverPresentationController?.barButtonItem = sourceNavigationBarButton
         } else {
@@ -571,25 +569,4 @@ extension ElegantEmojiPicker {
             }
         }
     }
-}
-
-
-//MARK: Presentation controller
-
-extension ElegantEmojiPicker: UIAdaptivePresentationControllerDelegate {
-    
-    public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-        if !AppConfiguration.isIPad { return .none }
-        
-        if traitCollection.horizontalSizeClass == .compact && AppConfiguration.windowFrame.width < 500 {
-            if #available(iOS 15.0, *) {
-                self.sheetPresentationController?.prefersGrabberVisible = true
-                self.sheetPresentationController?.detents = [.medium(), .large()]
-            }
-            return .formSheet
-        }
-        
-        return .popover
-    }
-    
 }

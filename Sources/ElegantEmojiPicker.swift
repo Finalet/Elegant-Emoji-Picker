@@ -70,21 +70,21 @@ open class ElegantEmojiPicker: UIViewController {
         
         self.emojiSections = self.delegate?.emojiPicker(self, loadEmojiSections: config, localization) ?? ElegantEmojiPicker.setupEmojiSections(config: config, localization: localization)
         
-//        let shouldPopover = UIDevice.current.userInterfaceIdiom != .phone && AppConfiguration.windowFrame.width > 500
-//        if let sourceView = sourceView, shouldPopover {
-//            self.modalPresentationStyle = .popover
-//            self.popoverPresentationController?.sourceView = sourceView
-//        } else if let sourceNavigationBarButton = sourceNavigationBarButton, shouldPopover {
-//            self.modalPresentationStyle = .popover
-//            self.popoverPresentationController?.barButtonItem = sourceNavigationBarButton
-//        } else {
-//            self.modalPresentationStyle = .formSheet
-//            if #available(iOS 15.0, *) {
-//                self.sheetPresentationController?.prefersGrabberVisible = true
-//                self.sheetPresentationController?.detents = [.medium(), .large()]
-//            }
-//        }
-//        self.presentationController?.delegate = self
+        self.presentationController?.delegate = self
+        
+        if let sourceView = sourceView, !AppConfiguration.isIPhone {
+            self.modalPresentationStyle = .popover
+            self.popoverPresentationController?.sourceView = sourceView
+        } else if let sourceNavigationBarButton = sourceNavigationBarButton, !AppConfiguration.isIPhone {
+            self.modalPresentationStyle = .popover
+            self.popoverPresentationController?.barButtonItem = sourceNavigationBarButton
+        } else {
+            self.modalPresentationStyle = .formSheet
+            if #available(iOS 15.0, *) {
+                self.sheetPresentationController?.prefersGrabberVisible = true
+                self.sheetPresentationController?.detents = [.medium(), .large()]
+            }
+        }
         
         self.view.addSubview(backgroundBlur, anchors: LayoutAnchor.fullFrame)
         
@@ -571,4 +571,25 @@ extension ElegantEmojiPicker {
             }
         }
     }
+}
+
+
+//MARK: Presentation controller
+
+extension ElegantEmojiPicker: UIAdaptivePresentationControllerDelegate {
+    
+    public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        if !AppConfiguration.isIPad { return .none }
+        
+        if traitCollection.horizontalSizeClass == .compact && AppConfiguration.windowFrame.width < 500 {
+            if #available(iOS 15.0, *) {
+                self.sheetPresentationController?.prefersGrabberVisible = true
+                self.sheetPresentationController?.detents = [.medium(), .large()]
+            }
+            return .formSheet
+        }
+        
+        return .none
+    }
+    
 }

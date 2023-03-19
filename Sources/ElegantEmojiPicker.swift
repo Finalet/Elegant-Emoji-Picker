@@ -70,10 +70,10 @@ open class ElegantEmojiPicker: UIViewController {
         
         self.emojiSections = self.delegate?.emojiPicker(self, loadEmojiSections: config, localization) ?? ElegantEmojiPicker.setupEmojiSections(config: config, localization: localization)
         
-        if let sourceView = sourceView, UIDevice.current.userInterfaceIdiom != .phone {
+        if let sourceView = sourceView, !AppConfiguration.isIPhone, AppConfiguration.windowFrame.width > 500 {
             self.modalPresentationStyle = .popover
             self.popoverPresentationController?.sourceView = sourceView
-        } else if let sourceNavigationBarButton = sourceNavigationBarButton, UIDevice.current.userInterfaceIdiom != .phone {
+        } else if let sourceNavigationBarButton = sourceNavigationBarButton, !AppConfiguration.isIPhone, AppConfiguration.windowFrame.width > 500 {
             self.modalPresentationStyle = .popover
             self.popoverPresentationController?.barButtonItem = sourceNavigationBarButton
         } else {
@@ -83,6 +83,8 @@ open class ElegantEmojiPicker: UIViewController {
                 self.sheetPresentationController?.detents = [.medium(), .large()]
             }
         }
+        
+        self.presentationController?.delegate = self
         
         self.view.addSubview(backgroundBlur, anchors: LayoutAnchor.fullFrame)
         
@@ -568,5 +570,11 @@ extension ElegantEmojiPicker {
                 self.prevFocusedSection = self.focusedSection
             }
         }
+    }
+}
+
+extension ElegantEmojiPicker: UIAdaptivePresentationControllerDelegate {
+    public func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none // Do not adapt presentation style. We set the presentation style manually in our init(). I know better than Apple.
     }
 }

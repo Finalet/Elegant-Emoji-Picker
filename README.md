@@ -103,7 +103,7 @@ viewController.present(picker, animated: true)
 
 ### Offering a custom set of emojis
 
-If you want to provide your own list of emojis to users, implement the `emojiPicker(_: loadEmojiSections : withConfiguration : withLocalization)` delegate method and return `[EmojiSection]` - an array of sections containing emojis.
+If you want to provide your own list of emojis to users, implement the `emojiPicker(_: loadEmojiSections : withConfiguration : withLocalization)` delegate method and return `[EmojiSection]` - an array of sections containing emojis. You can use a static method `ElegantEmojiPicker.getAllEmoji()` to retrieve all available emojis for your own collection.
 
 `EmojiSection` - one section containing emojis, like "Smileys & Emotion" or "People & Body".
 - `title` Displayed section title
@@ -112,13 +112,15 @@ If you want to provide your own list of emojis to users, implement the `emojiPic
 
 ```swift
 func emojiPicker(_ picker: ElegantEmojiPicker, loadEmojiSections withConfiguration: ElegantConfiguration, _ withLocalization: ElegantLocalization) -> [EmojiSection] {
-    let sections = [
-        EmojiSection(title: "Politeness", icon: UIImage(systemName: "hand.wave"), emojis: [
-            Emoji(emoji: "🖕", description: "middle finger", category: .PeopleAndBody, aliases: [], tags: ["flip"], supportsSkinTones: true, iOSVersion: "9.1"),
-            Emoji(emoji: "👊", description: "oncoming punch", category: .PeopleAndBody, aliases: ["smash"], tags: [], supportsSkinTones: true, iOSVersion: "6.0")
-        ])
-    ]
-    return sections
+    let allEmojis = ElegantEmojiPicker.getAllEmoji()
+    
+    let politeEmojis = allEmojis.filter({
+        $0.emoji == "🖕" ||
+        $0.emoji == "👊" ||
+        $0.emoji == "🤬"
+    })
+    
+    return [EmojiSection(title: "Politeness", icon: UIImage(systemName: "heart"), emojis: politeEmojis)]
 }
 ```
 

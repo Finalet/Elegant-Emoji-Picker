@@ -177,7 +177,7 @@ open class ElegantEmojiPicker: UIViewController {
         longPress.delegate = self
         collectionView.addGestureRecognizer(longPress)
         
-        if config.showToolbar { AddToolbar() }
+        if config.showToolbar && emojiSections.count > 1 { AddToolbar() }
     }
     
     func AddToolbar () {

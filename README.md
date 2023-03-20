@@ -103,9 +103,9 @@ viewController.present(picker, animated: true)
 
 ### Offering a custom set of emojis
 
-If you want to provide your own list of emojis to users, implement the `emojiPicker(_: loadEmojiSections : withConfiguration : withLocalization)` delegate method and return `[EmojiSection]` - an array of sections containing emojis. You can use a static method `ElegantEmojiPicker.getAllEmoji()` to retrieve all available emojis for your own collection.
+If you want to provide your own list of emojis to users, implement the `emojiPicker(_: loadEmojiSections : withConfiguration : withLocalization)` delegate method and return an array of sections containing emojis `[EmojiSection]`. You can use a static method `ElegantEmojiPicker.getAllEmoji()` to retrieve all available emojis for your own collection.
 
-`EmojiSection` - one section containing emojis, like "Smileys & Emotion" or "People & Body".
+`EmojiSection` one section containing emojis, like "Smileys & Emotion" or "People & Body".
 - `title` Displayed section title
 - `icon` Displayed section icon (used in the built-in toolbar). Optional.
 - `emojis` Emojis contained in this section

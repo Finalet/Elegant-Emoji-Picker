@@ -177,7 +177,7 @@ open class ElegantEmojiPicker: UIViewController {
         longPress.delegate = self
         collectionView.addGestureRecognizer(longPress)
         
-        if config.showToolbar { AddToolbar() }
+        if config.showToolbar && emojiSections.count > 1 { AddToolbar() }
     }
     
     func AddToolbar () {
@@ -199,44 +199,6 @@ open class ElegantEmojiPicker: UIViewController {
     
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         self.view.backgroundColor = UIScreen.main.traitCollection.userInterfaceStyle == .light ? .black.withAlphaComponent(0.1) : .clear
-    }
-    
-    static func setupEmojiSections(config: ElegantConfiguration, localization: ElegantLocalization) -> [EmojiSection]  {
-        let emojiData = (try? Data(contentsOf: Bundle.module.url(forResource: "Emoji Unicode 14.0", withExtension: "json")!))!
-        var emojis = try! JSONDecoder().decode([Emoji].self, from: emojiData)
-        
-        let persistedSkinTones = ElegantEmojiPicker.persistedSkinTones
-        emojis = emojis.map({
-            if !$0.supportsSkinTones { return $0 }
-            
-            if let persistedSkinToneStr = persistedSkinTones[$0.description], let persistedSkinTone = EmojiSkinTone(rawValue: persistedSkinToneStr) {
-                return $0.duplicate(persistedSkinTone)
-            } else if let defaultSkinTone = config.defaultSkinTone, persistedSkinTones[$0.description] != "" {
-                return $0.duplicate(defaultSkinTone)
-            }
-            
-            return $0
-        })
-        
-        var emojiSections = [EmojiSection]()
-        
-        let currentIOSVersion = UIDevice.current.systemVersion
-        
-        for emoji in emojis {
-            if emoji.iOSVersion.compare(currentIOSVersion, options: .numeric) == .orderedDescending { continue } // Skip unsupported emojis.
-            
-            let localizedCategoryTitle = localization.emojiCategoryTitles[emoji.category] ?? emoji.category.rawValue
-            
-            if let section = emojiSections.firstIndex(where: { $0.title == localizedCategoryTitle }) {
-                emojiSections[section].emojis.append(emoji)
-            } else if config.categories.contains(emoji.category) {
-                emojiSections.append(
-                    EmojiSection(title: localizedCategoryTitle, icon: emoji.category.image, emojis: [emoji])
-                )
-            }
-        }
-        
-        return emojiSections
     }
     
     @objc func TappedClose () {
@@ -338,60 +300,6 @@ extension ElegantEmojiPicker: UITextFieldDelegate {
     
     @objc func TappedSearchBackground () {
         searchField?.becomeFirstResponder()
-    }
-    
-    static func getSearchResults (_ prompt: String, fromAvailable: [EmojiSection] ) -> [Emoji] {
-        if prompt.isEmpty || prompt == " " { return []}
-        
-        var cleanSearchTerm = prompt.lowercased()
-        if cleanSearchTerm.last == " " { cleanSearchTerm.removeLast() }
-        
-        var results = [Emoji]()
-
-        for section in fromAvailable {
-            results.append(contentsOf: section.emojis.filter {
-                $0.aliases.contains(where: { $0.localizedCaseInsensitiveContains(cleanSearchTerm) }) ||
-                $0.tags.contains(where: { $0.localizedCaseInsensitiveContains(cleanSearchTerm) }) ||
-                $0.description.localizedCaseInsensitiveContains(cleanSearchTerm)
-            })
-        }
-        
-        return results.sorted { sortSearchResults($0, $1, prompt: cleanSearchTerm) }
-    }
-    
-    static func sortSearchResults (_ first: Emoji, _ second: Emoji, prompt: String) -> Bool {
-        let regExp = "\\b\(prompt)\\b"
-        
-        // The emoji which contains the exact search prompt in its aliases (first priority), tags (second priority), or description (lowest priority) wins. If both contain it, return the shorted described emoji, since that is usually more accurate.
-        
-        if first.aliases.contains(where: { $0.range(of: regExp, options: .regularExpression) != nil }) {
-            if second.aliases.contains(where: { $0.range(of: regExp, options: .regularExpression) != nil }) {
-                return first.description.count < second.description.count
-            }
-            return true
-        } else if second.aliases.contains(where: { $0.range(of: regExp, options: .regularExpression) != nil }) {
-            return false
-        }
-        
-        if first.tags.contains(where: { $0.range(of: regExp, options: .regularExpression) != nil }) {
-            if second.tags.contains(where: { $0.range(of: regExp, options: .regularExpression) != nil }) {
-                return first.description.count < second.description.count
-            }
-            return true
-        } else if second.tags.contains(where: { $0.range(of: regExp, options: .regularExpression) != nil }) {
-            return false
-        }
-        
-        if let _ = first.description.range(of: regExp, options: .regularExpression) {
-            if let _ = second.description.range(of: regExp, options: .regularExpression) {
-                return first.description.count < second.description.count
-            }
-            return true
-        } else if let _ = second.description.range(of: regExp, options: .regularExpression) {
-            return false
-        }
-        
-        return false
     }
 }
 
@@ -525,11 +433,6 @@ extension ElegantEmojiPicker {
         }
     }
     
-    static var persistedSkinTones: [String:String] {
-        get { return UserDefaults.standard.object(forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones_Key") as? [String:String] ?? [:] }
-        set { UserDefaults.standard.set(newValue, forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones_Key") }
-    }
-    
     func PersistSkinTone (originalEmoji: Emoji, skinTone: EmojiSkinTone?) {
         if !config.persistSkinTones { return }
         
@@ -577,4 +480,114 @@ extension ElegantEmojiPicker: UIAdaptivePresentationControllerDelegate {
     public func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none // Do not adapt presentation style. We set the presentation style manually in our init(). I know better than Apple.
     }
+}
+
+
+//MARK: Static methods
+
+extension ElegantEmojiPicker {
+    
+    static var persistedSkinTones: [String:String] {
+        get { return UserDefaults.standard.object(forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones_Key") as? [String:String] ?? [:] }
+        set { UserDefaults.standard.set(newValue, forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones_Key") }
+    }
+    
+    /// Returns an array of all available emojis. Use this method to retrieve emojis for your own collection.
+    /// - Returns: Array of all emojis
+    static public func getAllEmoji () -> [Emoji] {
+        let emojiData = (try? Data(contentsOf: Bundle.module.url(forResource: "Emoji Unicode 14.0", withExtension: "json")!))!
+        return try! JSONDecoder().decode([Emoji].self, from: emojiData)
+    }
+    
+    static func setupEmojiSections(config: ElegantConfiguration, localization: ElegantLocalization) -> [EmojiSection]  {
+        var emojis = getAllEmoji()
+        
+        let persistedSkinTones = ElegantEmojiPicker.persistedSkinTones
+        emojis = emojis.map({
+            if !$0.supportsSkinTones { return $0 }
+            
+            if let persistedSkinToneStr = persistedSkinTones[$0.description], let persistedSkinTone = EmojiSkinTone(rawValue: persistedSkinToneStr) {
+                return $0.duplicate(persistedSkinTone)
+            } else if let defaultSkinTone = config.defaultSkinTone, persistedSkinTones[$0.description] != "" {
+                return $0.duplicate(defaultSkinTone)
+            }
+            
+            return $0
+        })
+        
+        var emojiSections = [EmojiSection]()
+        
+        let currentIOSVersion = UIDevice.current.systemVersion
+        
+        for emoji in emojis {
+            if emoji.iOSVersion.compare(currentIOSVersion, options: .numeric) == .orderedDescending { continue } // Skip unsupported emojis.
+            
+            let localizedCategoryTitle = localization.emojiCategoryTitles[emoji.category] ?? emoji.category.rawValue
+            
+            if let section = emojiSections.firstIndex(where: { $0.title == localizedCategoryTitle }) {
+                emojiSections[section].emojis.append(emoji)
+            } else if config.categories.contains(emoji.category) {
+                emojiSections.append(
+                    EmojiSection(title: localizedCategoryTitle, icon: emoji.category.image, emojis: [emoji])
+                )
+            }
+        }
+        
+        return emojiSections
+    }
+    
+    static func getSearchResults (_ prompt: String, fromAvailable: [EmojiSection] ) -> [Emoji] {
+        if prompt.isEmpty || prompt == " " { return []}
+        
+        var cleanSearchTerm = prompt.lowercased()
+        if cleanSearchTerm.last == " " { cleanSearchTerm.removeLast() }
+        
+        var results = [Emoji]()
+
+        for section in fromAvailable {
+            results.append(contentsOf: section.emojis.filter {
+                $0.aliases.contains(where: { $0.localizedCaseInsensitiveContains(cleanSearchTerm) }) ||
+                $0.tags.contains(where: { $0.localizedCaseInsensitiveContains(cleanSearchTerm) }) ||
+                $0.description.localizedCaseInsensitiveContains(cleanSearchTerm)
+            })
+        }
+        
+        return results.sorted { sortSearchResults($0, $1, prompt: cleanSearchTerm) }
+    }
+    
+    static func sortSearchResults (_ first: Emoji, _ second: Emoji, prompt: String) -> Bool {
+        let regExp = "\\b\(prompt)\\b"
+        
+        // The emoji which contains the exact search prompt in its aliases (first priority), tags (second priority), or description (lowest priority) wins. If both contain it, return the shorted described emoji, since that is usually more accurate.
+        
+        if first.aliases.contains(where: { $0.range(of: regExp, options: .regularExpression) != nil }) {
+            if second.aliases.contains(where: { $0.range(of: regExp, options: .regularExpression) != nil }) {
+                return first.description.count < second.description.count
+            }
+            return true
+        } else if second.aliases.contains(where: { $0.range(of: regExp, options: .regularExpression) != nil }) {
+            return false
+        }
+        
+        if first.tags.contains(where: { $0.range(of: regExp, options: .regularExpression) != nil }) {
+            if second.tags.contains(where: { $0.range(of: regExp, options: .regularExpression) != nil }) {
+                return first.description.count < second.description.count
+            }
+            return true
+        } else if second.tags.contains(where: { $0.range(of: regExp, options: .regularExpression) != nil }) {
+            return false
+        }
+        
+        if let _ = first.description.range(of: regExp, options: .regularExpression) {
+            if let _ = second.description.range(of: regExp, options: .regularExpression) {
+                return first.description.count < second.description.count
+            }
+            return true
+        } else if let _ = second.description.range(of: regExp, options: .regularExpression) {
+            return false
+        }
+        
+        return false
+    }
+    
 }

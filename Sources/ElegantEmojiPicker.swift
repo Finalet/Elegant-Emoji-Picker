@@ -492,6 +492,8 @@ extension ElegantEmojiPicker {
         set { UserDefaults.standard.set(newValue, forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones_Key") }
     }
     
+    /// Returns an array of all available emojis. Use this method to retrieve emojis for your own collection.
+    /// - Returns: Array of all emojis
     static public func getAllEmoji () -> [Emoji] {
         let emojiData = (try? Data(contentsOf: Bundle.module.url(forResource: "Emoji Unicode 14.0", withExtension: "json")!))!
         return try! JSONDecoder().decode([Emoji].self, from: emojiData)

@@ -493,7 +493,7 @@ extension ElegantEmojiPicker {
     }
     
     /// Returns an array of all available emojis. Use this method to retrieve emojis for your own collection.
-    /// - Returns: Array of all emojis
+    /// - Returns: Array of all emojis.
     static public func getAllEmoji () -> [Emoji] {
         let emojiData = (try? Data(contentsOf: Bundle.module.url(forResource: "Emoji Unicode 14.0", withExtension: "json")!))!
         return try! JSONDecoder().decode([Emoji].self, from: emojiData)

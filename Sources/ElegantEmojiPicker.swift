@@ -493,7 +493,7 @@ extension ElegantEmojiPicker {
     }
     
     /// Returns an array of all available emojis. Use this method to retrieve emojis for your own collection.
-    /// - Returns: Array of all emojis
+    /// - Returns: Array of all emojis.
     static public func getAllEmoji () -> [Emoji] {
         let emojiData = (try? Data(contentsOf: Bundle.module.url(forResource: "Emoji Unicode 14.0", withExtension: "json")!))!
         return try! JSONDecoder().decode([Emoji].self, from: emojiData)
@@ -501,10 +501,10 @@ extension ElegantEmojiPicker {
     
     /// Returns an array of all available emojis categorized by section.
     /// - Parameters:
-    ///   - config: Config used to setup the emoji picker
-    ///   - localization: Localization used to setup the emoji picker
-    /// - Returns: Array of default sections [EmojiSection] containing all available emojis
-    static public func getDefaultEmojiSections(config: ElegantConfiguration, localization: ElegantLocalization) -> [EmojiSection]  {
+    ///   - config: Config used to setup the emoji picker.
+    ///   - localization: Localization used to setup the emoji picker.
+    /// - Returns: Array of default sections [EmojiSection] containing all available emojis.
+    static public func getDefaultEmojiSections(config: ElegantConfiguration = ElegantConfiguration(), localization: ElegantLocalization = ElegantLocalization()) -> [EmojiSection]  {
         var emojis = getAllEmoji()
         
         let persistedSkinTones = ElegantEmojiPicker.persistedSkinTones

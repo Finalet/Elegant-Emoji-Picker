@@ -501,10 +501,10 @@ extension ElegantEmojiPicker {
     
     /// Returns an array of all available emojis categorized by section.
     /// - Parameters:
-    ///   - config: Config used to setup the emoji picker
-    ///   - localization: Localization used to setup the emoji picker
-    /// - Returns: Array of default sections [EmojiSection] containing all available emojis
-    static public func getDefaultEmojiSections(config: ElegantConfiguration, localization: ElegantLocalization) -> [EmojiSection]  {
+    ///   - config: Config used to setup the emoji picker.
+    ///   - localization: Localization used to setup the emoji picker.
+    /// - Returns: Array of default sections [EmojiSection] containing all available emojis.
+    static public func getDefaultEmojiSections(config: ElegantConfiguration = ElegantConfiguration(), localization: ElegantLocalization = ElegantLocalization()) -> [EmojiSection]  {
         var emojis = getAllEmoji()
         
         let persistedSkinTones = ElegantEmojiPicker.persistedSkinTones

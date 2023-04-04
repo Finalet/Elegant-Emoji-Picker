@@ -110,7 +110,7 @@ extension ElegantEmojiPickerDelegate {
     public func emojiPickerShouldDismissAfterSelection (_ picker: ElegantEmojiPicker) -> Bool { return true }
     
     public func emojiPicker (_ picker: ElegantEmojiPicker, loadEmojiSections withConfiguration: ElegantConfiguration, _ withLocalization: ElegantLocalization) -> [EmojiSection] {
-        return ElegantEmojiPicker.setupEmojiSections(config: withConfiguration, localization: withLocalization)
+        return ElegantEmojiPicker.getDefaultEmojiSections(config: withConfiguration, localization: withLocalization)
     }
     
 }

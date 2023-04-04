@@ -68,7 +68,7 @@ open class ElegantEmojiPicker: UIViewController {
         self.localization = localization
         super.init(nibName: nil, bundle: nil)
         
-        self.emojiSections = self.delegate?.emojiPicker(self, loadEmojiSections: config, localization) ?? ElegantEmojiPicker.setupEmojiSections(config: config, localization: localization)
+        self.emojiSections = self.delegate?.emojiPicker(self, loadEmojiSections: config, localization) ?? ElegantEmojiPicker.getDefaultEmojiSections(config: config, localization: localization)
         
         if let sourceView = sourceView, !AppConfiguration.isIPhone, AppConfiguration.windowFrame.width > 500 {
             self.modalPresentationStyle = .popover
@@ -504,7 +504,7 @@ extension ElegantEmojiPicker {
     ///   - config: Config used to setup the emoji picker
     ///   - localization: Localization used to setup the emoji picker
     /// - Returns: Array of default sections [EmojiSection] containing all available emojis
-    static public func setupEmojiSections(config: ElegantConfiguration, localization: ElegantLocalization) -> [EmojiSection]  {
+    static public func getDefaultEmojiSections(config: ElegantConfiguration, localization: ElegantLocalization) -> [EmojiSection]  {
         var emojis = getAllEmoji()
         
         let persistedSkinTones = ElegantEmojiPicker.persistedSkinTones

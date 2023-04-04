@@ -499,7 +499,12 @@ extension ElegantEmojiPicker {
         return try! JSONDecoder().decode([Emoji].self, from: emojiData)
     }
     
-    static func setupEmojiSections(config: ElegantConfiguration, localization: ElegantLocalization) -> [EmojiSection]  {
+    /// Returns an array of all available emojis categorized by section.
+    /// - Parameters:
+    ///   - config: Config used to setup the emoji picker
+    ///   - localization: Localization used to setup the emoji picker
+    /// - Returns: Array of default sections [EmojiSection] containing all available emojis
+    static public func setupEmojiSections(config: ElegantConfiguration, localization: ElegantLocalization) -> [EmojiSection]  {
         var emojis = getAllEmoji()
         
         let persistedSkinTones = ElegantEmojiPicker.persistedSkinTones

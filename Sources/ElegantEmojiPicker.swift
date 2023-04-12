@@ -541,7 +541,12 @@ extension ElegantEmojiPicker {
         return emojiSections
     }
     
-    static func getSearchResults (_ prompt: String, fromAvailable: [EmojiSection] ) -> [Emoji] {
+    /// Get emoji search results for a given prompt, using the default search algorithm. First looks for matches in aliases, then in tags, and lastly in description. Sorts search results by relevance.
+    /// - Parameters:
+    ///   - prompt: Search prompt to use.
+    ///   - fromAvailable: Which emojis to search from.
+    /// - Returns: Array of [Emoji] that were found.
+    static public func getSearchResults (_ prompt: String, fromAvailable: [EmojiSection] ) -> [Emoji] {
         if prompt.isEmpty || prompt == " " { return []}
         
         var cleanSearchTerm = prompt.lowercased()

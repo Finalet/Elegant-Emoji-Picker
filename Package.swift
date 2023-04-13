@@ -20,7 +20,7 @@ let package = Package(
             name: "ElegantEmojiPicker",
             path: "Sources",
             resources: [
-                .process("Resources/Emoji Unicode 14.0.json"),
+                .process("Resources/Emoji Unicode 15.0.json"),
                 .process("Resources/Icons.xcassets")
             ])
     ]

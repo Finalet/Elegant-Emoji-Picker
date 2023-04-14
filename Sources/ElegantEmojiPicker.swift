@@ -487,7 +487,21 @@ extension ElegantEmojiPicker: UIAdaptivePresentationControllerDelegate {
 
 extension ElegantEmojiPicker {
     
-    static var persistedSkinTones: [String:String] {
+    /// Persists skin tone for a specified emoji.
+    /// - Parameters:
+    ///   - originalEmoji: Standard yellow emoji for which to persist a skin tone.
+    ///   - skinTone: Skin tone to save. Pass nil to remove saved skin tone.
+    static public func PersistSkinTone (originalEmoji: Emoji, skinTone: EmojiSkinTone?) {
+        ElegantEmojiPicker.persistedSkinTones[originalEmoji.description] = skinTone?.rawValue
+    }
+    
+    /// Delete all persisted emoji skin tones.
+    static public func CleanPersistedSkinTones () {
+        ElegantEmojiPicker.persistedSkinTones = [:]
+    }
+    
+    /// Dictionary containing all emojis with persisted skin tones. [Emoji : Skin tone]
+    static public var persistedSkinTones: [String:String] {
         get { return UserDefaults.standard.object(forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones_Key") as? [String:String] ?? [:] }
         set { UserDefaults.standard.set(newValue, forKey: "Finalet_Elegant_Emoji_Picker_Skin_Tones_Key") }
     }

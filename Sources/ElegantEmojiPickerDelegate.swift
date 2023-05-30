@@ -14,7 +14,7 @@ import UIKit
 /// * Respond to emoji selection
 /// * Receive callbacks when the emoji picker was loaded
 /// * Configure the emoji picker dismiss behavior
-public protocol ElegantEmojiPickerDelegate {
+public protocol ElegantEmojiPickerDelegate: AnyObject {
     
     /// Tells the delegate that an emoji was selected, or that the user reset their selection.
     /// - Parameters:

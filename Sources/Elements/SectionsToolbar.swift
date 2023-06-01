@@ -11,7 +11,7 @@ import UIKit
 class SectionsToolbar: UIView {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
-    let emojiPicker: ElegantEmojiPicker
+    weak var emojiPicker: ElegantEmojiPicker?
     let padding = 8.0
     
     let blur = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
@@ -68,6 +68,8 @@ class SectionsToolbar: UIView {
     }
     
     func UpdateCorrectSelection (animated: Bool = true) {
+        guard let emojiPicker = emojiPicker else { return }
+
         if !emojiPicker.isSearching { self.alpha = emojiPicker.config.categories.count <= 1 ? 0 : 1 }
         
         let posX: CGFloat? = categoryButtons.indices.contains(emojiPicker.focusedSection) ? categoryButtons[emojiPicker.focusedSection].frame.origin.x : nil
@@ -90,7 +92,7 @@ class SectionsToolbar: UIView {
         let imageView = UIImageView()
         
         let section: Int
-        let emojiPicker: ElegantEmojiPicker
+        weak var emojiPicker: ElegantEmojiPicker?
         
         init (_ section: Int, icon: UIImage?, emojiPicker: ElegantEmojiPicker) {
             self.section = section
@@ -108,6 +110,7 @@ class SectionsToolbar: UIView {
         }
         
         @objc func Tap () {
+            guard let emojiPicker = emojiPicker else { return }
             emojiPicker.didSelectSection(section)
         }
     }

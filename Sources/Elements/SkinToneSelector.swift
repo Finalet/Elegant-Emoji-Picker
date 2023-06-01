@@ -86,7 +86,7 @@ class SkinToneSelector: UIView {
         let skinTone: EmojiSkinTone?
         let standardEmoji: Emoji
         let skinTonedEmoji: Emoji
-        let emojiPicker: ElegantEmojiPicker
+        weak var emojiPicker: ElegantEmojiPicker?
         
         init (standardEmoji: Emoji, skinTone: EmojiSkinTone?, emojiPicker: ElegantEmojiPicker, fontSize: CGFloat) {
             self.skinTone = skinTone
@@ -105,6 +105,8 @@ class SkinToneSelector: UIView {
         }
         
         @objc func TapTone (_ sender: UITapGestureRecognizer) {
+            guard let emojiPicker = emojiPicker else { return }
+
             emojiPicker.didSelectEmoji(skinTonedEmoji)
             
             emojiPicker.PersistSkinTone(originalEmoji: standardEmoji, skinTone: skinTone)

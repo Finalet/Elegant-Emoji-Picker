@@ -108,6 +108,7 @@ open class ElegantEmojiPicker: UIViewController {
             searchFieldBackground?.contentView.addSubview(clearButton!, anchors: [.trailing(spacing), .top(spacing), .bottom(spacing)])
             
             searchField = UITextField()
+            searchField!.autocorrectionType = .no
             searchField!.placeholder = localization.searchFieldPlaceholder
             searchField!.delegate = self
             searchField!.addTarget(self, action: #selector(searchFieldChanged), for: .editingChanged)

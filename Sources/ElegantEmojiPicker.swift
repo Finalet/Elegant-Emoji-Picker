@@ -218,6 +218,14 @@ open class ElegantEmojiPicker: UIViewController {
         delegate?.emojiPicker(self, didSelectEmoji: emoji)
         if delegate?.emojiPickerShouldDismissAfterSelection(self) ?? true { self.dismiss(animated: true) }
     }
+
+    override open func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        self.delegate?.emojiPickerWillDismissItself(self)
+        super.dismiss(animated: flag) {
+            self.delegate?.emojiPickerDidDismissItself(self)
+            completion?()
+        }
+    }
 }
 
 // MARK: Built-in toolbar
@@ -479,6 +487,14 @@ extension ElegantEmojiPicker {
 extension ElegantEmojiPicker: UIAdaptivePresentationControllerDelegate {
     public func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none // Do not adapt presentation style. We set the presentation style manually in our init(). I know better than Apple.
+    }
+
+    public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        self.delegate?.emojiPickerDidDismissItself(self)
+    }
+
+    public func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
+        self.delegate?.emojiPickerWillDismissItself(self)
     }
 }
 

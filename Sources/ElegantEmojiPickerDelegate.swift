@@ -77,7 +77,17 @@ public protocol ElegantEmojiPickerDelegate: AnyObject {
     /// - Parameter picker: Emoji picker view informing the delegate.
     /// - Returns: true (default) to allow the emoji picker view to automatically dismiss after the user makes a selection, or false to prevent the view from dismissing after user makes a selection.
     func emojiPickerShouldDismissAfterSelection (_ picker: ElegantEmojiPicker) -> Bool
-    
+
+    /// Tells the delegate that the picker will dismiss.
+    ///
+    /// - Parameter picker: The emoji picker view informing the delegate.
+    func emojiPickerWillDismissItself (_ picker: ElegantEmojiPicker)
+
+    /// Tells the delegate that the picker got dismissed.
+    ///
+    /// - Parameter picker: The emoji picker view informing the delegate.
+    func emojiPickerDidDismissItself (_ picker: ElegantEmojiPicker)
+
     /// Asks the delegate for an array of emojis to offer users, organized by sections.
     ///
     /// Use this method if you are unsatisfied with the provided emojis and want to supply your own. You are welcome, but, also, fuck you.
@@ -108,7 +118,10 @@ extension ElegantEmojiPickerDelegate {
     public func emojiPickerDidEndSearching (_ picker: ElegantEmojiPicker) {}
     
     public func emojiPickerShouldDismissAfterSelection (_ picker: ElegantEmojiPicker) -> Bool { return true }
-    
+
+    public func emojiPickerDidDismissItself (_ picker: ElegantEmojiPicker) {}
+    public func emojiPickerWillDismissItself (_ picker: ElegantEmojiPicker) {}
+
     public func emojiPicker (_ picker: ElegantEmojiPicker, loadEmojiSections withConfiguration: ElegantConfiguration, _ withLocalization: ElegantLocalization) -> [EmojiSection] {
         return ElegantEmojiPicker.getDefaultEmojiSections(config: withConfiguration, localization: withLocalization)
     }

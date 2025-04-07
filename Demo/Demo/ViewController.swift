@@ -73,4 +73,12 @@ extension ViewController: ElegantEmojiPickerDelegate {
             self.emojiLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
         }
     }
+
+    func emojiPickerDidDismissItself(_ picker: ElegantEmojiPicker) {
+        print("dismissed")
+    }
+
+    func emojiPickerWillDismissItself(_ picker: ElegantEmojiPicker) {
+        print("will dismiss")
+    }
 }

@@ -27,7 +27,7 @@ Elegant Emoji Picker is a configurable, simple to use, even more simple to impem
 - Categories toolbar 
 - Configurable: change displayed sections, buttons, options, and more
 - Localizable: provide text for all on screen labels
-- Latest Unicode 14.0 emojis
+- Latest Unicode 16.0 emojis
 - Blindingly beautiful
 
 #### Limitations

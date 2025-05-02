@@ -16,6 +16,10 @@ Behold: ~~UIEmojiPicker~~ Elegant Emoji Picker.
 
 https://user-images.githubusercontent.com/10033440/226136503-79eb27fb-1254-45da-a7c1-5528c1ec160e.MP4
 
+## 📢 Need an app press kit or landing page?
+
+Try [Pressdeck](https://pressdeck.io/?utm_source=elegant_emoji_picker). Get media coverage for your app with a professional press kit website made in minutes.
+
 ## 🤔 About
 
 Elegant Emoji Picker is a configurable, simple to use, even more simple to impement, and beautiful (subjectively) emoji picker for iOS, iPadOS, and MacCatalyst ([iOS preview](https://github.com/Finalet/Elegant-Emoji-Picker/blob/dev/Documentation/iOS%20preview.MP4), [MacCatalyst preview](https://github.com/Finalet/Elegant-Emoji-Picker/blob/dev/Documentation/MacCatalyst%20preview.mov)).

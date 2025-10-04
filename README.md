@@ -5,6 +5,7 @@
 ![Elegant Emoji Picker iOS version](https://img.shields.io/badge/iOS-13.0%2B-blue)
 ![Elegant Emoji Picker MacCatalyst version](https://img.shields.io/badge/MacCatalyst-13.0%2B-blue)
 ![Elegant Emoji Picker UIKit](https://img.shields.io/badge/Framework-UIKit-red)
+![Elegant Emoji Picker SwiftUI](https://img.shields.io/badge/Framework-SwiftUI-red)
 ![Elengat Emoji Picker Swift](https://img.shields.io/badge/Language-Swift-orange)
 ![Elegant Emoji Picker MIT License](https://img.shields.io/github/license/finalet/elegant-emoji-picker)
 ![Elengat Emoji Picker Contact](https://img.shields.io/badge/Contact-%40GrantOgany-darkgray?link=https://twitter.com/GrantOgany)

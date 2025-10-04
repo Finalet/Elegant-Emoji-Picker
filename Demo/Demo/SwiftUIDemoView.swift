@@ -3,40 +3,39 @@ import ElegantEmojiPicker
 
 @available(iOS 14.0, *)
 struct SwiftUIDemoView: View {
-    @State private var selectedEmoji: Emoji? = nil
+    @State private var selectedEmoji: Emoji? = placeholderEmoji
     @State private var isEmojiPickerPresented: Bool = false
 
+    @State private var animate = true
+    
     var body: some View {
         VStack(spacing: 30) {
-            Text("SwiftUI Demo")
-                .font(.title)
+            Text(selectedEmoji?.emoji ?? "")
+                .font(.system(size: 50))
+                .scaleEffect(animate ? 1.0 : 0.1)
+                .animation(
+                    .interpolatingSpring(stiffness: 400, damping: 20),
+                    value: animate
+                )
+                .onChange(of: selectedEmoji) { _ in
+                    animate = false
+                    DispatchQueue.main.async {
+                        animate = true
+                    }
+                }
 
-            if let emoji = selectedEmoji {
-                Text(emoji.emoji)
-                    .font(.system(size: 50))
-            } else {
-                Text("No emoji selected")
-                    .font(.headline)
-            }
-
-            Button(action: {
+            Button("Select emoji") {
                 isEmojiPickerPresented.toggle()
-            }) {
-                Text(selectedEmoji == nil ? "Pick an Emoji" : "Change Emoji")
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
             }
+            .frame(width: 200, height: 40)
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(8)
         }
+        .navigationTitle(Text("Swift UI Demo"))
         .emojiPicker(
             isPresented: $isEmojiPickerPresented,
             selectedEmoji: $selectedEmoji,
-            configuration: ElegantConfiguration(
-                showRandom: false,
-                persistSkinTones: true),
-            localization: ElegantLocalization(
-                searchFieldPlaceholder: "SwiftUI Search")
         )
     }
 }
@@ -46,4 +45,6 @@ struct SwiftUIDemoView_Previews: PreviewProvider {
     static var previews: some View {
         SwiftUIDemoView()
     }
-} 
+}
+
+let placeholderEmoji: Emoji = Emoji(emoji: "😀", description: "", category: .SmileysAndEmotion, aliases: [], tags: [], supportsSkinTones: false, iOSVersion: "")

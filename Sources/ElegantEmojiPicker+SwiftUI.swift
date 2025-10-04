@@ -68,6 +68,7 @@ struct ElegantEmojiPickerRepresentable: UIViewControllerRepresentable {
 struct EmojiPickerViewModifier: ViewModifier {
     @Binding var isPresented: Bool
     @Binding var selectedEmoji: Emoji?
+    var detents: Set<AvailablePresentationDetent> = [.medium, .large]
     var configuration: ElegantConfiguration = ElegantConfiguration()
     var localization: ElegantLocalization = ElegantLocalization()
 
@@ -81,6 +82,7 @@ struct EmojiPickerViewModifier: ViewModifier {
                     localization: localization
                 )
                 .ignoresSafeArea(.container, edges: .bottom)
+                .withPresentationDetents(detents)
             }
     }
 }
@@ -90,6 +92,7 @@ public extension View {
     func emojiPicker(
         isPresented: Binding<Bool>,
         selectedEmoji: Binding<Emoji?>,
+        detents: Set<AvailablePresentationDetent> = [.medium, .large],
         configuration: ElegantConfiguration = ElegantConfiguration(),
         localization: ElegantLocalization = ElegantLocalization()
     ) -> some View {
@@ -97,9 +100,55 @@ public extension View {
             EmojiPickerViewModifier(
                 isPresented: isPresented,
                 selectedEmoji: selectedEmoji,
+                detents: detents,
                 configuration: configuration,
                 localization: localization
             )
         )
     }
-} 
+}
+
+
+@available(iOS 14.0, *)
+struct PresentationDetendsModifier: ViewModifier {
+    let detents: Set<AvailablePresentationDetent>
+    
+    func body(content: Content) -> some View {
+        if #available(iOS 16.0, *) {
+            content
+                .presentationDetents(Set(detents.compactMap(\.systemDetent)))
+        } else {
+            content
+        }
+    }
+}
+
+@available(iOS 14.0, *)
+extension View {
+    func withPresentationDetents(_ detents: Set<AvailablePresentationDetent>) -> some View {
+        self.modifier(PresentationDetendsModifier(detents: detents))
+    }
+}
+
+
+@available(iOS 14.0, *)
+public enum AvailablePresentationDetent: Hashable {
+    case medium
+    case large
+    case fraction(CGFloat)
+    case height(CGFloat)
+    
+    @available(iOS 16.0, *)
+    var systemDetent: PresentationDetent {
+        switch self {
+        case .medium:
+            return .medium
+        case .large:
+            return .large
+        case .fraction(let value):
+            return .fraction(value)
+        case .height(let value):
+            return .height(value)
+        }
+    }
+}

@@ -63,14 +63,15 @@ class ViewController: UIViewController {
             emojiSelectionButton.topAnchor.constraint(equalTo: emojiLabel.bottomAnchor, constant: 32),
             emojiSelectionButton.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
             emojiSelectionButton.heightAnchor.constraint(equalToConstant: 40),
+            emojiSelectionButton.widthAnchor.constraint(equalToConstant: 200),
             
-            swiftuiDemoButton.topAnchor.constraint(equalTo: emojiSelectionButton.bottomAnchor, constant: 16),
+            swiftuiDemoButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
             swiftuiDemoButton.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
             swiftuiDemoButton.heightAnchor.constraint(equalToConstant: 40),
-            swiftuiDemoButton.widthAnchor.constraint(equalTo: emojiSelectionButton.widthAnchor, constant: 40),
+            swiftuiDemoButton.widthAnchor.constraint(equalToConstant: 200),
             
             lg.topAnchor.constraint(equalTo: emojiLabel.topAnchor),
-            lg.bottomAnchor.constraint(equalTo: swiftuiDemoButton.bottomAnchor),
+            lg.bottomAnchor.constraint(equalTo: emojiSelectionButton.bottomAnchor),
             lg.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             lg.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             lg.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor),
@@ -83,8 +84,7 @@ class ViewController: UIViewController {
     
     @objc func TappedSwiftUIDemo () {
         if #available(iOS 14.0, *) {
-            let swiftUIDemoView = SwiftUIDemoView()
-            let hostingController = UIHostingController(rootView: swiftUIDemoView)
+            let hostingController = UIHostingController(rootView: SwiftUIDemoView())
             self.present(hostingController, animated: true, completion: nil)
         } else {
             let alert = UIAlertController(title: "SwiftUI Not Available", message: "SwiftUI features require iOS 14 or later.", preferredStyle: .alert)

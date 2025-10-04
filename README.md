@@ -96,12 +96,7 @@ struct MySwiftUIView: View {
 
     var body: some View {
         VStack {
-            if let emoji = selectedEmoji {
-                Text(emoji.emoji)
-                    .font(.largeTitle)
-            } else {
-                Text("Tap to pick an emoji")
-            }
+            Text(selectedEmoji?.emoji ?? "No emoji selected")
 
             Button(selectedEmoji == nil ? "Pick Emoji" : "Change Emoji") {
                 isEmojiPickerPresented.toggle()
@@ -110,9 +105,9 @@ struct MySwiftUIView: View {
         .emojiPicker(
             isPresented: $isEmojiPickerPresented,
             selectedEmoji: $selectedEmoji
-            // Optionally, pass configuration and localization:
-            // configuration: ElegantConfiguration(showRandom: false),
-            // localization: ElegantLocalization(searchFieldPlaceholder: "Find your emoji...")
+            // detents: [.large] // Specify which presentation detents to use for the slide sheet (Optional)
+            // configuration: ElegantConfiguration(showRandom: false), // Pass configuration (Optional)
+            // localization: ElegantLocalization(searchFieldPlaceholder: "Find your emoji...") // Pass localization (Optional)
         )
     }
 }

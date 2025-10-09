@@ -14,7 +14,7 @@ class SectionsToolbar: UIView {
     weak var emojiPicker: ElegantEmojiPicker?
     let padding = 8.0
     
-    let blur = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
+    let backgroundEffect = UIVisualEffectView()
     let selectionBlur = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
     
     var selectionConstraint: NSLayoutConstraint?
@@ -29,8 +29,13 @@ class SectionsToolbar: UIView {
         
         self.PopupShadow()
         
-        blur.clipsToBounds = true
-        self.addSubview(blur, anchors: LayoutAnchor.fullFrame)
+        backgroundEffect.clipsToBounds = true
+        if #available(iOS 26.0, *) {
+            backgroundEffect.effect = UIGlassEffect()
+        } else {
+            backgroundEffect.effect = UIBlurEffect(style: .systemUltraThinMaterial)
+        }
+        self.addSubview(backgroundEffect, anchors: LayoutAnchor.fullFrame)
         
         selectionBlur.clipsToBounds = true
         selectionBlur.backgroundColor = .label.withAlphaComponent(0.3)
@@ -61,7 +66,7 @@ class SectionsToolbar: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        blur.layer.cornerRadius = blur.frame.height*0.5
+        backgroundEffect.layer.cornerRadius = backgroundEffect.frame.height*0.5
         selectionBlur.layer.cornerRadius = selectionBlur.frame.height*0.5
         
         UpdateCorrectSelection(animated: false)

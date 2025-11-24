@@ -22,11 +22,7 @@ class SkinToneSelector: UIView {
         
         blur.clipsToBounds = true
         blur.alpha = 0
-        if #available(iOS 26.0, *) {
-            blur.effect = UIGlassEffect()
-        } else {
-            blur.effect = UIBlurEffect(style: .systemUltraThinMaterial)
-        }
+        blur.effect = UIBlurEffect(style: .systemUltraThinMaterial)
         self.addSubview(blur, anchors: LayoutAnchor.fullFrame)
         
         let yellow = SkinToneButton(standardEmoji: standardEmoji, skinTone: nil, emojiPicker: emojiPicker, fontSize: fontSize)

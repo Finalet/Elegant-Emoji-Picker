@@ -1,7 +1,7 @@
 ![Elegant Emoji Picker Swift UIKit](https://raw.githubusercontent.com/Finalet/Elegant-Emoji-Picker/main/Documentation/Github%20Hero.png)
 
 # Elegant Emoji Picker
-![Elegant Emoji Picker Unicode version](https://img.shields.io/badge/Unicode-16.0-blue)
+![Elegant Emoji Picker Unicode version](https://img.shields.io/badge/Unicode-17.0-blue)
 ![Elegant Emoji Picker iOS version](https://img.shields.io/badge/iOS-13.0%2B-blue)
 ![Elegant Emoji Picker MacCatalyst version](https://img.shields.io/badge/MacCatalyst-13.0%2B-blue)
 ![Elegant Emoji Picker UIKit](https://img.shields.io/badge/Framework-UIKit%20|%20SwiftUI-red)
@@ -31,7 +31,7 @@ Elegant Emoji Picker is a configurable, simple to use, even more simple to impem
 - Categories toolbar 
 - Configurable: change displayed sections, buttons, options, and more
 - Localizable: provide text for all on screen labels
-- Latest Unicode 16.0 emojis
+- Latest Unicode 17.0 emojis
 - Blindingly beautiful
 
 #### Limitations

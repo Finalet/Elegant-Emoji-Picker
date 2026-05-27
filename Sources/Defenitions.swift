@@ -18,6 +18,10 @@ public struct Emoji: Decodable, Equatable {
     public let tags: [String]
     public let supportsSkinTones: Bool
     public let iOSVersion: String
+
+    private static func isSkinToneModifier(_ scalar: UnicodeScalar) -> Bool {
+        return (0x1F3FB...0x1F3FF).contains(scalar.value)
+    }
     
     /// Get a string representation of this emoji with another skin tone
     /// - Parameter withSkinTone: new skin tone to use
@@ -26,10 +30,12 @@ public struct Emoji: Decodable, Equatable {
         // Applying skin tones with Dan Wood's code: https://github.com/Remotionco/Emoji-Library-and-Utilities
         
         if !supportsSkinTones { return nil }
+
+        let unmodifiedScalars = emoji.unicodeScalars.filter { !Emoji.isSkinToneModifier($0) }
+
         // If skin tone is nil, return the default yellow emoji
         guard let withSkinTone = withSkinTone else {
-            if let unicode = emoji.unicodeScalars.first { return String(unicode) }
-            else { return emoji }
+            return String(String.UnicodeScalarView(unmodifiedScalars))
         }
         
         var wasToneInserted = false
@@ -37,7 +43,7 @@ public struct Emoji: Decodable, Equatable {
 
         var scalars = [UnicodeScalar]()
         // Either replace first found Fully Qualified 0xFE0F, or add to the end or before the first ZWJ, 0x200D.
-        for scalar in emoji.unicodeScalars {
+        for scalar in unmodifiedScalars {
             if !wasToneInserted {
                 switch scalar.value {
                 case 0xFE0F:

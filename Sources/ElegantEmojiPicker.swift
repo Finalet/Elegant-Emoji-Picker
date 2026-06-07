@@ -225,8 +225,18 @@ open class ElegantEmojiPicker: UIViewController {
 
 extension ElegantEmojiPicker {
     func didSelectSection(_ index: Int) {
-        collectionView.scrollToItem(at: IndexPath(row: 0, section: index), at: .centeredVertically, animated: true)
-        
+        if let attributes = collectionView.collectionViewLayout.layoutAttributesForSupplementaryView(
+            ofKind: UICollectionView.elementKindSectionHeader,
+            at: IndexPath(item: 0, section: index)
+        ) {
+            collectionView.scrollRectToVisible(CGRect(
+                origin: attributes.frame.origin,
+                size: collectionView.bounds.inset(by: collectionView.adjustedContentInset).size
+            ), animated: true)
+        } else {
+            collectionView.scrollToItem(at: IndexPath(item: 0, section: index), at: .centeredVertically, animated: true)
+        }
+
         overridingFocusedSection = true
         self.focusedSection = index
         self.toolbar?.UpdateCorrectSelection(animated: true)
@@ -346,7 +356,7 @@ extension ElegantEmojiPicker: UICollectionViewDelegate, UICollectionViewDataSour
             didSelectEmoji(emojiSections[indexPath.section].emojis[indexPath.row])
         }
     }
-    
+
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y > 10 { searchField?.resignFirstResponder() }
         

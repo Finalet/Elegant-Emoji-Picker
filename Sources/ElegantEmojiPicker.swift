@@ -265,19 +265,19 @@ extension ElegantEmojiPicker: UITextFieldDelegate {
         return true
     }
     
-    @objc func searchFieldChanged (_ textField: UITextField) {
+    @objc func searchFieldChanged(_ textField: UITextField) {
         let count = textField.text!.count
         let searchTerm = textField.text!
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
             guard let self = self else { return }
-            
-            if count == 0 {
-                self.searchResults = nil
-            } else {
-                self.searchResults = self.delegate?.emojiPicker(self, searchResultFor: searchTerm, fromAvailable: self.emojiSections) ?? ElegantEmojiPicker.getSearchResults(searchTerm, fromAvailable: self.emojiSections)
+
+            var results: [Emoji]?
+            if count != 0 {
+                results = self.delegate?.emojiPicker(self, searchResultFor: searchTerm, fromAvailable: self.emojiSections) ?? ElegantEmojiPicker.getSearchResults(searchTerm, fromAvailable: self.emojiSections)
             }
-            
+
             DispatchQueue.main.async {
+                self.searchResults = results
                 self.collectionView?.reloadData()
                 self.collectionView.setContentOffset(.zero, animated: false)
             }

@@ -519,7 +519,7 @@ extension ElegantEmojiPicker {
     /// - Returns: Array of all emojis.
     static public func getAllEmoji () -> [Emoji] {
         let emojiData = (try? Data(contentsOf: Bundle.module.url(forResource: "Emoji Unicode 17.0", withExtension: "json")!))!
-        return try! JSONDecoder().decode([Emoji].self, from: emojiData)
+        return (try? JSONDecoder().decode([Emoji].self, from: emojiData)) ?? []
     }
     
     /// Returns an array of all available emojis categorized by section.

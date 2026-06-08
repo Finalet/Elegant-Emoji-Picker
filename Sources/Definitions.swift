@@ -10,7 +10,7 @@ import UIKit
 import CoreText
 
 /// Struct representing a single emoji
-public struct Emoji: Decodable, Equatable {
+public struct Emoji: Codable, Equatable {
     public let emoji: String
     public let description: String
     public let category: EmojiCategory
@@ -70,14 +70,14 @@ public struct Emoji: Decodable, Equatable {
         return string
     }
     
-    enum CodingKeys: CodingKey {
+    enum CodingKeys: String, CodingKey {
         case emoji
         case description
         case category
         case aliases
         case tags
-        case skin_tones
-        case ios_version
+        case supportsSkinTones = "skin_tones"
+        case iOSVersion = "ios_version"
     }
     
     public init(from decoder: Decoder) throws {
@@ -87,8 +87,8 @@ public struct Emoji: Decodable, Equatable {
         self.category = try container.decode(EmojiCategory.self, forKey: .category)
         self.aliases = try container.decode([String].self, forKey: .aliases)
         self.tags = try container.decode([String].self, forKey: .tags)
-        self.supportsSkinTones = try container.decodeIfPresent(Bool.self, forKey: .skin_tones) ?? false
-        self.iOSVersion = try container.decode(String.self, forKey: .ios_version)
+        self.supportsSkinTones = try container.decodeIfPresent(Bool.self, forKey: .supportsSkinTones) ?? false
+        self.iOSVersion = try container.decode(String.self, forKey: .iOSVersion)
     }
     
     /// Create an instance of an emoji
@@ -144,7 +144,7 @@ public enum EmojiSkinTone: String, CaseIterable {
     case Dark = "🏿"
 }
 
-public enum EmojiCategory: String, CaseIterable, Decodable {
+public enum EmojiCategory: String, CaseIterable, Codable {
     case SmileysAndEmotion = "Smileys & Emotion"
     case PeopleAndBody = "People & Body"
     case AnimalsAndNature = "Animals & Nature"
